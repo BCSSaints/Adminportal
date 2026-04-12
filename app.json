@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1a1a2e"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -26,7 +26,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#1a1a2e"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.byne.churchcenter",
       "permissions": ["INTERNET", "CAMERA", "READ_MEDIA_IMAGES"]
@@ -38,7 +38,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#1a1a2e",
+          "backgroundColor": "#ffffff",
           "image": "./assets/splash.png",
           "imageWidth": 200
         }

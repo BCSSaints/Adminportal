@@ -51,14 +51,16 @@ export const TABS = [
   },
 ];
 
-// Brand colors — customize to match your church
+// Brand colors — Byne Church
+// Primary blue extracted from the logo wordmark
 export const COLORS = {
-  primary: '#1a1a2e',
-  accent: '#e94560',
+  primary: '#5BB8D4',       // Byne Church blue
+  accent: '#3A9BBF',        // Slightly deeper blue for pressed states
   tabBar: '#ffffff',
-  tabBarActive: '#1a1a2e',
-  tabBarInactive: '#999999',
-  header: '#1a1a2e',
-  headerText: '#ffffff',
+  tabBarActive: '#5BB8D4',  // Active tab uses brand blue
+  tabBarInactive: '#AAAAAA',
+  header: '#ffffff',        // White header to match logo background
+  headerText: '#5BB8D4',    // Blue text in header
   loadingBg: '#f5f5f5',
+  splashBg: '#ffffff',      // White splash to match logo
 };
