@@ -4,20 +4,37 @@
 
 ## Project Overview
 
-**Adminportal** is an admin portal application. This repository is in its initial setup phase.
+**Adminportal** is a React Native (Expo) mobile app for BCC Saints that embeds the Planning Center Church Center web app. It gives congregation members a church-branded app experience while using Church Center's full feature set under the hood.
 
 - **Repository**: BCSSaints/Adminportal
-- **Status**: New project — initial scaffolding in progress
+- **Tech Stack**: Expo (React Native), react-native-webview, React Navigation
+- **Platform**: iOS and Android
+- **Status**: Initial implementation complete
 
 ## Repository Structure
 
 ```
 Adminportal/
-├── CLAUDE.md          # AI assistant guidelines (this file)
-└── (project files TBD)
+├── App.js                          # Root component, splash screen handling
+├── app.json                        # Expo app configuration (name, bundle ID, icons)
+├── babel.config.js                 # Babel config for Expo
+├── eas.json                        # EAS Build configuration (app store submissions)
+├── package.json                    # Dependencies
+├── CLAUDE.md                       # AI assistant guidelines (this file)
+├── assets/                         # App icons and splash screen images (add your own)
+│   ├── icon.png                    # 1024x1024 app icon (REQUIRED — add yours)
+│   ├── splash.png                  # Splash screen image (REQUIRED — add yours)
+│   ├── adaptive-icon.png           # Android adaptive icon foreground
+│   └── favicon.png                 # Web favicon
+└── src/
+    ├── config.js                   # ⭐ MAIN CONFIG — set subdomain & colors here
+    ├── navigation/
+    │   └── AppNavigator.js         # Bottom tab navigation setup
+    └── screens/
+        └── ChurchCenterScreen.js   # WebView screen loading Church Center
 ```
 
-> **Note**: This file should be updated as the project grows. Each major directory, config file, or convention added to the project should be reflected here.
+> **Note**: This file should be updated as the project grows.
 
 ## Development Workflow
 
@@ -59,12 +76,41 @@ Adminportal/
 
 ## Environment Setup
 
-> To be updated once dependencies and tooling are established.
+### Prerequisites
+- Node.js 18+
+- Expo CLI: `npm install -g expo-cli`
+- EAS CLI (for builds): `npm install -g eas-cli`
+- Expo Go app on your phone (for development testing)
+
+### Quick Start
 
 1. Clone the repository
-2. Install dependencies (TBD)
-3. Configure environment variables (TBD)
-4. Start the development server (TBD)
+2. `npm install`
+3. Edit `src/config.js` — set `CHURCH_CENTER_SUBDOMAIN` to your church's subdomain
+4. Add your church's `icon.png` (1024×1024) and `splash.png` to `assets/`
+5. `npm start` — scan the QR code with Expo Go
+
+### Building for App Stores
+
+```bash
+# Log in to Expo
+eas login
+
+# Build for iOS (requires Apple Developer account)
+npm run build:ios
+
+# Build for Android (requires Google Play account)
+npm run build:android
+```
+
+### Key Configuration (`src/config.js`)
+
+| Variable | Description |
+|---|---|
+| `CHURCH_CENTER_SUBDOMAIN` | Your church's subdomain (e.g. `bccsaints`) |
+| `CHURCH_NAME` | Displayed in the app header |
+| `COLORS` | Brand color palette |
+| `TABS` | Bottom tab labels, icons, and Church Center URL paths |
 
 ## Key Files to Update
 
