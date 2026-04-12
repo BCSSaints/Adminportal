@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:android": "eas build --platform android",
-    "build:ios": "eas build --platform ios"
+    "build:ios": "eas build --platform ios",
+    "assets": "node scripts/generate-assets.js"
   },
   "dependencies": {
     "expo": "~51.0.0",
@@ -25,7 +26,8 @@
     "@expo/vector-icons": "^14.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0"
+    "@babel/core": "^7.24.0",
+    "sharp": "^0.33.4"
   },
   "private": true
 }

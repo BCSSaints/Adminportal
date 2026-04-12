@@ -23,3 +23,6 @@ yarn-error.log*
 
 # Local Expo CLI
 .expo-shared/
+
+# Source logo files (large PNGs — store in your design system, not git)
+assets/logos/
