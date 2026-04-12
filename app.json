@@ -18,7 +18,9 @@
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
-        }
+        },
+        "NSCameraUsageDescription": "Camera access is needed to scan QR codes during check-in.",
+        "NSPhotoLibraryUsageDescription": "Photo library access may be needed by Church Center."
       }
     },
     "android": {
@@ -27,7 +29,7 @@
         "backgroundColor": "#1a1a2e"
       },
       "package": "com.byne.churchcenter",
-      "permissions": ["INTERNET"]
+      "permissions": ["INTERNET", "CAMERA", "READ_MEDIA_IMAGES"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

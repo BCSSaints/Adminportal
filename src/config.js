@@ -17,6 +17,7 @@ export const CHURCH_NAME = 'Byne';
 export const CHURCH_CENTER_BASE_URL = `https://${CHURCH_CENTER_SUBDOMAIN}.churchcenter.com`;
 
 // Tab destinations within Church Center
+// Groups is accessible from the Home tab inside Church Center.
 export const TABS = [
   {
     key: 'home',
@@ -31,16 +32,16 @@ export const TABS = [
     icon: 'heart',
   },
   {
+    key: 'checkin',
+    label: 'Check In',
+    path: '/check-ins',
+    icon: 'checkbox',
+  },
+  {
     key: 'events',
     label: 'Events',
     path: '/registrations',
     icon: 'calendar',
-  },
-  {
-    key: 'groups',
-    label: 'Groups',
-    path: '/groups',
-    icon: 'people',
   },
   {
     key: 'profile',
