@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ChurchCenterScreen from '../screens/ChurchCenterScreen';
-import { TABS, COLORS } from '../config';
+import { TABS, COLORS, CHURCH_NAME } from '../config';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,7 +51,7 @@ export default function AppNavigator() {
           initialParams={{ path: tab.path }}
           options={{
             title: tab.label,
-            headerTitle: tab.label === 'Home' ? 'BCC Saints' : tab.label,
+            headerTitle: tab.label === 'Home' ? CHURCH_NAME : tab.label,
           }}
         />
       ))}

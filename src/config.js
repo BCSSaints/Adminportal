@@ -5,13 +5,13 @@
 // Your Church Center URL looks like:
 //   https://YOUR_SUBDOMAIN.churchcenter.com
 //
-// Example: if your URL is https://bccsaints.churchcenter.com
-//   set CHURCH_CENTER_SUBDOMAIN = 'bccsaints'
+// Example: if your URL is https://byne.churchcenter.com
+//   set CHURCH_CENTER_SUBDOMAIN = 'byne'
 // ============================================================
 
-export const CHURCH_CENTER_SUBDOMAIN = 'bccsaints'; // <-- UPDATE THIS
+export const CHURCH_CENTER_SUBDOMAIN = 'byne';
 
-export const CHURCH_NAME = 'BCC Saints';
+export const CHURCH_NAME = 'Byne';
 
 // Derived base URL — do not change this
 export const CHURCH_CENTER_BASE_URL = `https://${CHURCH_CENTER_SUBDOMAIN}.churchcenter.com`;

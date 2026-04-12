@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "BCC Saints",
-    "slug": "bccsaints-adminportal",
+    "name": "Byne",
+    "slug": "byne-church-center",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.bccsaints.adminportal",
+      "bundleIdentifier": "com.byne.churchcenter",
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1a1a2e"
       },
-      "package": "com.bccsaints.adminportal",
+      "package": "com.byne.churchcenter",
       "permissions": ["INTERNET"]
     },
     "web": {
