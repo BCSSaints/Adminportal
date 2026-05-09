@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BCS Communications</title>
+    <meta name="description" content="Byne Christian School public announcements and communications portal.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#announcements">Skip to announcements</a>
+
+    <header class="portal-header" aria-label="BCS Communications header">
+      <a class="brand" href="/" aria-label="BCS Communications home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img">
+            <path d="M4 10.2v3.6a2 2 0 0 0 2 2h2.2l1.3 4.2h2.4l-1.2-4.2H13l6 2.9V5.3l-6 2.9H6a2 2 0 0 0-2 2Z"></path>
+            <path d="M19 9.2c1 .6 1.6 1.6 1.6 2.8S20 14.2 19 14.8"></path>
+          </svg>
+        </span>
+        <span>BCS Communications</span>
+      </a>
+    </header>
+
+    <main>
+      <section class="featured-band" aria-labelledby="featured-title">
+        <div class="portal-container">
+          <h1 id="featured-title">FEATURED</h1>
+          <div class="featured-grid" data-featured-grid></div>
+          <div class="empty-state is-hidden" data-featured-empty>
+            <span class="empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                <path d="M4 12h16M12 4v16"></path>
+              </svg>
+            </span>
+            <p>No results found, try adjusting your search and filters.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="announcements-band" id="announcements" aria-labelledby="announcements-title">
+        <div class="portal-container">
+          <h2 id="announcements-title">NEW &amp; ANNOUNCEMENTS</h2>
+
+          <div class="toolbar" aria-label="Announcement controls">
+            <label class="search-control" for="announcement-search">
+              <span class="control-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <path d="m16.5 16.5 4 4"></path>
+                </svg>
+              </span>
+              <span class="sr-only">Search announcements</span>
+              <input id="announcement-search" type="search" placeholder="Search" autocomplete="off" data-search>
+            </label>
+
+            <label class="filter-control" for="tag-filter">
+              <span class="sr-only">Filter announcements by tag</span>
+              <select id="tag-filter" data-tag-filter>
+                <option value="">Filter</option>
+              </select>
+            </label>
+
+            <button class="ask-ai" type="button" aria-label="Ask AI">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m12 3 1.3 4.1L17.4 8l-4.1 1.3L12 13.4l-1.3-4.1L6.6 8l4.1-.9L12 3Z"></path>
+                <path d="m18 13 .8 2.2L21 16l-2.2.8L18 19l-.8-2.2L15 16l2.2-.8L18 13Z"></path>
+                <path d="m6 14 .6 1.6L8.2 16l-1.6.6L6 18.2l-.6-1.6L3.8 16l1.6-.4L6 14Z"></path>
+              </svg>
+              <span>Ask AI</span>
+            </button>
+          </div>
+
+          <div class="results-meta" data-results-meta aria-live="polite"></div>
+          <div class="announcement-grid" data-announcement-grid></div>
+          <div class="empty-state light is-hidden" data-announcement-empty>
+            <span class="empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                <path d="M4 12h16M12 4v16"></path>
+              </svg>
+            </span>
+            <p>No results found, try adjusting your search and filters.</p>
+          </div>
+          <div class="pagination">
+            <button class="load-more" type="button" data-load-more>Load more</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
