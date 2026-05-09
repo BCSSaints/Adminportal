@@ -279,8 +279,7 @@ button {
 }
 
 .featured-band .card {
-  grid-template-columns: 220px minmax(0, 1fr);
-  min-height: 176px;
+  grid-template-columns: 1fr;
   border-color: rgba(255, 255, 255, 0.12);
 }
 
@@ -295,13 +294,17 @@ button {
 }
 
 .featured-band .media-wrap {
-  min-height: 100%;
+  aspect-ratio: 1.75;
 }
 
 .media-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.featured-band .media-wrap img {
+  object-position: top center;
 }
 
 .media-placeholder {
@@ -456,14 +459,6 @@ button {
   .featured-grid,
   .announcement-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .featured-band .card {
-    grid-template-columns: 1fr;
-  }
-
-  .featured-band .media-wrap {
-    aspect-ratio: 1.75;
   }
 
   .toolbar {
