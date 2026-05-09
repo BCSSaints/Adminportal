@@ -439,6 +439,7 @@ const state = {
   search: "",
   tag: "",
   visibleCount: ITEMS_PER_PAGE,
+  lastFocusedElement: null,
 };
 
 const elements = {
@@ -450,6 +451,13 @@ const elements = {
   tagFilter: document.querySelector("[data-tag-filter]"),
   loadMore: document.querySelector("[data-load-more]"),
   resultsMeta: document.querySelector("[data-results-meta]"),
+  modalShell: document.querySelector("[data-modal-shell]"),
+  modalTitle: document.querySelector("[data-modal-title]"),
+  modalDescription: document.querySelector("[data-modal-description]"),
+  modalMedia: document.querySelector("[data-modal-media]"),
+  modalLinks: document.querySelector("[data-modal-links]"),
+  modalCloseButton: document.querySelector(".modal-close"),
+  modalCloseControls: document.querySelectorAll("[data-modal-close]"),
 };
 
 function parseDate(value) {
@@ -512,6 +520,7 @@ function uniqueSortedTags() {
 }
 
 function cardTemplate(item) {
+  const index = announcements.indexOf(item);
   const badges = item.badges
     .map((badge) => `<span class="badge ${badge.toLowerCase()}">${badge}</span>`)
     .join("");
@@ -520,7 +529,7 @@ function cardTemplate(item) {
     : `<span class="media-placeholder" aria-label="No image available">${imageIcon()}</span>`;
 
   return `
-    <a class="card" href="${item.link || "#"}" target="_blank" rel="noreferrer">
+    <button class="card" type="button" data-announcement-card="${index}" aria-label="Open ${item.title}">
       <span class="media-wrap">
         ${media}
         ${badges ? `<span class="badge-list">${badges}</span>` : ""}
@@ -529,7 +538,7 @@ function cardTemplate(item) {
         <span class="card-title">${item.title}</span>
         <span class="card-subtitle">${item.subtitle}</span>
       </span>
-    </a>
+    </button>
   `;
 }
 
@@ -574,6 +583,41 @@ function renderAnnouncements() {
   }
 }
 
+function linkTemplate(url, label, variant = "") {
+  if (!url) return "";
+  const className = variant ? `modal-link ${variant}` : "modal-link";
+  return `<a class="${className}" href="${url}" target="_blank" rel="noreferrer">${label}</a>`;
+}
+
+function openModal(item, trigger) {
+  state.lastFocusedElement = trigger;
+  elements.modalTitle.textContent = item.title;
+  elements.modalDescription.textContent = item.subtitle;
+  elements.modalMedia.innerHTML = item.contentUpload
+    ? `<img src="${item.contentUpload}" alt="${item.title} artwork">`
+    : `<span class="media-placeholder" aria-label="No image available">${imageIcon()}</span>`;
+  elements.modalLinks.innerHTML =
+    linkTemplate(item.link, "Open link") +
+    linkTemplate(item.additionalLink, "Open additional link", "secondary");
+  elements.modalLinks.classList.toggle("is-hidden", !item.link && !item.additionalLink);
+  elements.modalShell.classList.remove("is-hidden");
+  document.body.classList.add("modal-open");
+  elements.modalCloseButton?.focus();
+}
+
+function closeModal() {
+  elements.modalShell.classList.add("is-hidden");
+  document.body.classList.remove("modal-open");
+  state.lastFocusedElement?.focus();
+}
+
+function handleCardClick(event) {
+  const card = event.target.closest("[data-announcement-card]");
+  if (!card) return;
+  const item = announcements[Number(card.dataset.announcementCard)];
+  if (item) openModal(item, card);
+}
+
 function resetVisibleCount() {
   state.visibleCount = ITEMS_PER_PAGE;
 }
@@ -593,6 +637,19 @@ elements.tagFilter.addEventListener("change", (event) => {
 elements.loadMore.addEventListener("click", () => {
   state.visibleCount += ITEMS_PER_PAGE;
   renderAnnouncements();
+});
+
+elements.featuredGrid.addEventListener("click", handleCardClick);
+elements.announcementGrid.addEventListener("click", handleCardClick);
+
+elements.modalCloseControls.forEach((control) => {
+  control.addEventListener("click", closeModal);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !elements.modalShell.classList.contains("is-hidden")) {
+    closeModal();
+  }
 });
 
 renderTagOptions();
