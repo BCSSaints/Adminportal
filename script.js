@@ -14,8 +14,8 @@ const announcements = [
     priority: 1,
     featured: true,
     visible: true,
-    link: "https://byneschool.org/field-day-concessions",
-    additionalLink: "https://byneschool.org/field-day",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "House Games at Fun Park - Monday, May 11 | 12:00-2:00 PM",
@@ -30,8 +30,8 @@ const announcements = [
     priority: 2,
     featured: true,
     visible: true,
-    link: "https://byneschool.org/house-games",
-    additionalLink: "https://funpark.com",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Saints in the Summer 2026 T-Shirt Orders Are Open",
@@ -46,8 +46,8 @@ const announcements = [
     priority: 3,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/saints-in-the-summer-shirts",
-    additionalLink: "https://byneschool.org/spirit-wear",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "8th Grade Celebration - Wednesday, May 13 at 8:30 AM",
@@ -62,7 +62,7 @@ const announcements = [
     priority: 4,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/8th-grade-celebration",
+    link: "",
     additionalLink: "",
   },
   {
@@ -78,8 +78,8 @@ const announcements = [
     priority: 5,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/curtain-up-broadway",
-    additionalLink: "https://bynechurch.org",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Cross Country Coach Opening | 2026-2027 School Year",
@@ -94,8 +94,8 @@ const announcements = [
     priority: 6,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/cross-country-coach",
-    additionalLink: "mailto:athletics@byneschool.org",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Keepers of the Kingdom VBS | June 22-25",
@@ -110,8 +110,8 @@ const announcements = [
     priority: 7,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/vbs",
-    additionalLink: "https://bynechurch.org/vbs",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Thespian Troupe Service Project | Sleep in Heavenly Peace",
@@ -126,8 +126,8 @@ const announcements = [
     priority: 8,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/thespian-service-project",
-    additionalLink: "https://shpbeds.org",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Last Day of School | May 15",
@@ -142,7 +142,7 @@ const announcements = [
     priority: 9,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/last-day",
+    link: "",
     additionalLink: "",
   },
   {
@@ -158,7 +158,7 @@ const announcements = [
     priority: 10,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/pedal-scoot-ride",
+    link: "",
     additionalLink: "",
   },
   {
@@ -174,7 +174,7 @@ const announcements = [
     priority: 11,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/volleyball-camp",
+    link: "",
     additionalLink: "",
   },
   {
@@ -190,7 +190,7 @@ const announcements = [
     priority: 12,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/basketball-camp",
+    link: "",
     additionalLink: "",
   },
   {
@@ -206,7 +206,7 @@ const announcements = [
     priority: 13,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/awards",
+    link: "",
     additionalLink: "",
   },
   {
@@ -222,8 +222,8 @@ const announcements = [
     priority: 14,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/field-day-rsvp",
-    additionalLink: "https://byneschool.org/lunch",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Kindergarten Graduation | May 14",
@@ -238,7 +238,7 @@ const announcements = [
     priority: 15,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/kindergarten-graduation",
+    link: "",
     additionalLink: "",
   },
   {
@@ -254,8 +254,8 @@ const announcements = [
     priority: 16,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/spring-lunch-menu",
-    additionalLink: "https://byneschool.org/menu.pdf",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Domino's Fundraiser Notice",
@@ -270,7 +270,7 @@ const announcements = [
     priority: 17,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/dominos-fundraiser",
+    link: "",
     additionalLink: "",
   },
   {
@@ -286,8 +286,8 @@ const announcements = [
     priority: 18,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/saints-in-camo",
-    additionalLink: "https://autilove.com",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "School Calendar",
@@ -302,7 +302,7 @@ const announcements = [
     priority: 19,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/school-calendar",
+    link: "",
     additionalLink: "",
   },
   {
@@ -318,7 +318,7 @@ const announcements = [
     priority: 20,
     featured: false,
     visible: true,
-    link: "https://facebook.com/groups/bcsfamilies",
+    link: "",
     additionalLink: "",
   },
   {
@@ -334,8 +334,8 @@ const announcements = [
     priority: 21,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/summer-office-hours",
-    additionalLink: "mailto:office@byneschool.org",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Report Card Pickup",
@@ -350,8 +350,8 @@ const announcements = [
     priority: 22,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/report-card-pickup",
-    additionalLink: "https://secure.gradelink.com/Gradelink",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Used Uniform Exchange",
@@ -366,8 +366,8 @@ const announcements = [
     priority: 23,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/used-uniform-exchange",
-    additionalLink: "https://www.globalschoolwear.com/school/BYNE01",
+    link: "",
+    additionalLink: "",
   },
   {
     title: "Logic School Book Return",
@@ -382,7 +382,7 @@ const announcements = [
     priority: 24,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/logic-book-return",
+    link: "",
     additionalLink: "",
   },
   {
@@ -398,7 +398,7 @@ const announcements = [
     priority: 25,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/rhetoric-summer-reading",
+    link: "",
     additionalLink: "",
   },
   {
@@ -414,7 +414,7 @@ const announcements = [
     priority: 26,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/grammar-supply-lists",
+    link: "",
     additionalLink: "",
   },
   {
@@ -430,7 +430,7 @@ const announcements = [
     priority: 99,
     featured: false,
     visible: true,
-    link: "https://byneschool.org/expired-spring-break",
+    link: "",
     additionalLink: "",
   },
 ];
