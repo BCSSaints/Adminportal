@@ -594,15 +594,22 @@ function linkTemplate(url, label) {
   return `<a class="modal-link" href="${url}" target="_blank" rel="noreferrer"><span>${label}</span><strong>${url}</strong></a>`;
 }
 
+function setModalTextField(element, value) {
+  const text = value?.trim() || "";
+  element.textContent = text;
+  element.classList.toggle("is-hidden", !text);
+}
+
 function openModal(item, trigger) {
   state.lastFocusedElement = trigger;
-  elements.modalBadges.innerHTML = item.badges.map(badgeTemplate).join("");
-  elements.modalTitle.textContent = item.title;
-  elements.modalSubtitle.textContent = item.subtitle;
-  elements.modalDescription.textContent = item.description || item.subtitle;
+  elements.modalBadges.innerHTML = item.badges?.length ? item.badges.map(badgeTemplate).join("") : "";
+  setModalTextField(elements.modalTitle, item.title);
+  setModalTextField(elements.modalSubtitle, item.subtitle);
+  setModalTextField(elements.modalDescription, item.description);
   elements.modalMedia.innerHTML = item.contentUpload
-    ? `<img src="${item.contentUpload}" alt="${item.title} artwork">`
-    : `<span class="media-placeholder" aria-label="No image available">${imageIcon()}</span>`;
+    ? `<img src="${item.contentUpload}" alt="${item.title || "Announcement"} artwork">`
+    : "";
+  elements.modalMedia.classList.toggle("is-hidden", !item.contentUpload);
   elements.modalLinks.innerHTML =
     linkTemplate(item.link, "Link") +
     linkTemplate(item.additionalLink, "Additional Link");
