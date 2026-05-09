@@ -452,7 +452,9 @@ const elements = {
   loadMore: document.querySelector("[data-load-more]"),
   resultsMeta: document.querySelector("[data-results-meta]"),
   modalShell: document.querySelector("[data-modal-shell]"),
+  modalBadges: document.querySelector("[data-modal-badges]"),
   modalTitle: document.querySelector("[data-modal-title]"),
+  modalSubtitle: document.querySelector("[data-modal-subtitle]"),
   modalDescription: document.querySelector("[data-modal-description]"),
   modalMedia: document.querySelector("[data-modal-media]"),
   modalLinks: document.querySelector("[data-modal-links]"),
@@ -583,22 +585,27 @@ function renderAnnouncements() {
   }
 }
 
-function linkTemplate(url, label, variant = "") {
+function badgeTemplate(badge) {
+  return `<span class="badge ${badge.toLowerCase()}">${badge}</span>`;
+}
+
+function linkTemplate(url, label) {
   if (!url) return "";
-  const className = variant ? `modal-link ${variant}` : "modal-link";
-  return `<a class="${className}" href="${url}" target="_blank" rel="noreferrer">${label}</a>`;
+  return `<a class="modal-link" href="${url}" target="_blank" rel="noreferrer"><span>${label}</span><strong>${url}</strong></a>`;
 }
 
 function openModal(item, trigger) {
   state.lastFocusedElement = trigger;
+  elements.modalBadges.innerHTML = item.badges.map(badgeTemplate).join("");
   elements.modalTitle.textContent = item.title;
-  elements.modalDescription.textContent = item.subtitle;
+  elements.modalSubtitle.textContent = item.subtitle;
+  elements.modalDescription.textContent = item.description || item.subtitle;
   elements.modalMedia.innerHTML = item.contentUpload
     ? `<img src="${item.contentUpload}" alt="${item.title} artwork">`
     : `<span class="media-placeholder" aria-label="No image available">${imageIcon()}</span>`;
   elements.modalLinks.innerHTML =
-    linkTemplate(item.link, "Open link") +
-    linkTemplate(item.additionalLink, "Open additional link", "secondary");
+    linkTemplate(item.link, "Link") +
+    linkTemplate(item.additionalLink, "Additional Link");
   elements.modalLinks.classList.toggle("is-hidden", !item.link && !item.additionalLink);
   elements.modalShell.classList.remove("is-hidden");
   document.body.classList.add("modal-open");
