@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "node server.js",
-    "test": "node --check script.js && node --check server.js"
+    "test": "node --check script.js && node --check server.js && node --check netlify/functions/announcements.js"
   },
   "keywords": [],
   "author": "",

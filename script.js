@@ -1,6 +1,7 @@
 const ITEMS_PER_PAGE = 24;
+const ANNOUNCEMENTS_ENDPOINT = "/.netlify/functions/announcements";
 
-const announcements = [
+let announcements = [
   {
     title: "Field Day Concessions - Bring cash!",
     subtitle: "Snacks, sweets, and sips for a full day of play",
@@ -475,6 +476,19 @@ function isNonEmpty(value) {
   return Array.isArray(value) ? value.length > 0 : Boolean(value);
 }
 
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return entities[character];
+  });
+}
+
 function isLivePublicItem(item) {
   const today = todayAtMidnight();
   return (
@@ -524,21 +538,21 @@ function uniqueSortedTags() {
 function cardTemplate(item) {
   const index = announcements.indexOf(item);
   const badges = item.badges
-    .map((badge) => `<span class="badge ${badge.toLowerCase()}">${badge}</span>`)
+    .map((badge) => `<span class="badge ${escapeHTML(badge.toLowerCase())}">${escapeHTML(badge)}</span>`)
     .join("");
   const media = item.contentUpload
-    ? `<img src="${item.contentUpload}" alt="${item.title} flyer" loading="lazy">`
+    ? `<img src="${escapeHTML(item.contentUpload)}" alt="${escapeHTML(item.title)} flyer" loading="lazy">`
     : `<span class="media-placeholder" aria-label="No image available">${imageIcon()}</span>`;
 
   return `
-    <button class="card" type="button" data-announcement-card="${index}" aria-label="Open ${item.title}">
+    <button class="card" type="button" data-announcement-card="${index}" aria-label="Open ${escapeHTML(item.title)}">
       <span class="media-wrap">
         ${media}
         ${badges ? `<span class="badge-list">${badges}</span>` : ""}
       </span>
       <span class="card-body">
-        <span class="card-title">${item.title}</span>
-        <span class="card-subtitle">${item.subtitle}</span>
+        <span class="card-title">${escapeHTML(item.title)}</span>
+        <span class="card-subtitle">${escapeHTML(item.subtitle)}</span>
       </span>
     </button>
   `;
@@ -563,9 +577,9 @@ function renderFeatured() {
 
 function renderTagOptions() {
   const options = uniqueSortedTags()
-    .map((tag) => `<option value="${tag}">${tag}</option>`)
+    .map((tag) => `<option value="${escapeHTML(tag)}">${escapeHTML(tag)}</option>`)
     .join("");
-  elements.tagFilter.insertAdjacentHTML("beforeend", options);
+  elements.tagFilter.innerHTML = `<option value="">Filter</option>${options}`;
 }
 
 function renderAnnouncements() {
@@ -586,12 +600,12 @@ function renderAnnouncements() {
 }
 
 function badgeTemplate(badge) {
-  return `<span class="badge ${badge.toLowerCase()}">${badge}</span>`;
+  return `<span class="badge ${escapeHTML(badge.toLowerCase())}">${escapeHTML(badge)}</span>`;
 }
 
 function linkTemplate(url, label) {
   if (!url) return "";
-  return `<a class="modal-link" href="${url}" target="_blank" rel="noreferrer"><span>${label}</span><strong>${url}</strong></a>`;
+  return `<a class="modal-link" href="${escapeHTML(url)}" target="_blank" rel="noreferrer"><span>${escapeHTML(label)}</span><strong>${escapeHTML(url)}</strong></a>`;
 }
 
 function setModalTextField(element, value) {
@@ -607,7 +621,7 @@ function openModal(item, trigger) {
   setModalTextField(elements.modalSubtitle, item.subtitle);
   setModalTextField(elements.modalDescription, item.description);
   elements.modalMedia.innerHTML = item.contentUpload
-    ? `<img src="${item.contentUpload}" alt="${item.title || "Announcement"} artwork">`
+    ? `<img src="${escapeHTML(item.contentUpload)}" alt="${escapeHTML(item.title || "Announcement")} artwork">`
     : "";
   elements.modalMedia.classList.toggle("is-hidden", !item.contentUpload);
   elements.modalLinks.innerHTML =
@@ -666,6 +680,53 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-renderTagOptions();
-renderFeatured();
-renderAnnouncements();
+function renderPortal() {
+  renderTagOptions();
+  renderFeatured();
+  renderAnnouncements();
+}
+
+function normalizeAnnouncement(item) {
+  return {
+    title: item.title || "",
+    subtitle: item.subtitle || "",
+    description: item.description || "",
+    contentUpload: item.contentUpload || "",
+    badges: Array.isArray(item.badges) ? item.badges : [],
+    tags: Array.isArray(item.tags) ? item.tags : [],
+    category: item.category || "",
+    publishDate: item.publishDate || "",
+    closeDate: item.closeDate || "",
+    pinned: Boolean(item.pinned),
+    priority: Number.isFinite(Number(item.priority)) ? Number(item.priority) : 999,
+    featured: item.featured || false,
+    visible: item.visible || false,
+    link: item.link || "",
+    additionalLink: item.additionalLink || "",
+  };
+}
+
+async function loadLiveAnnouncements() {
+  try {
+    const response = await fetch(ANNOUNCEMENTS_ENDPOINT, {
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return;
+
+    const data = await response.json();
+    if (!Array.isArray(data.announcements) || data.announcements.length === 0) return;
+
+    announcements = data.announcements.map(normalizeAnnouncement);
+  } catch (error) {
+    console.info("Using local announcement fallback data.", error);
+  }
+}
+
+async function initializePortal() {
+  renderPortal();
+  await loadLiveAnnouncements();
+  resetVisibleCount();
+  renderPortal();
+}
+
+initializePortal();
