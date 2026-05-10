@@ -473,6 +473,7 @@ button {
   position: relative;
   display: grid;
   width: min(100%, 940px);
+  max-height: calc(100vh - clamp(32px, 8vw, 84px));
   max-height: calc(100dvh - clamp(32px, 8vw, 84px));
   overflow-y: auto;
   align-self: center;
@@ -558,6 +559,27 @@ button {
 
 .modal-subtitle {
   font-weight: 700;
+}
+
+.modal-description-block {
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid #e2e9f1;
+  padding-top: 14px;
+}
+
+.modal-description-block h2 {
+  margin: 0;
+  color: #1f2f3f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.modal-description-block p {
+  white-space: pre-line;
 }
 
 .modal-links {

@@ -456,6 +456,7 @@ const elements = {
   modalBadges: document.querySelector("[data-modal-badges]"),
   modalTitle: document.querySelector("[data-modal-title]"),
   modalSubtitle: document.querySelector("[data-modal-subtitle]"),
+  modalDescriptionBlock: document.querySelector("[data-modal-description-block]"),
   modalDescription: document.querySelector("[data-modal-description]"),
   modalMedia: document.querySelector("[data-modal-media]"),
   modalLinks: document.querySelector("[data-modal-links]"),
@@ -612,6 +613,7 @@ function setModalTextField(element, value) {
   const text = value?.trim() || "";
   element.textContent = text;
   element.classList.toggle("is-hidden", !text);
+  return Boolean(text);
 }
 
 function openModal(item, trigger) {
@@ -619,7 +621,8 @@ function openModal(item, trigger) {
   elements.modalBadges.innerHTML = item.badges?.length ? item.badges.map(badgeTemplate).join("") : "";
   setModalTextField(elements.modalTitle, item.title);
   setModalTextField(elements.modalSubtitle, item.subtitle);
-  setModalTextField(elements.modalDescription, item.description);
+  const hasDescription = setModalTextField(elements.modalDescription, item.description);
+  elements.modalDescriptionBlock.classList.toggle("is-hidden", !hasDescription);
   elements.modalMedia.innerHTML = item.contentUpload
     ? `<img src="${escapeHTML(item.contentUpload)}" alt="${escapeHTML(item.title || "Announcement")} artwork">`
     : "";
