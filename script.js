@@ -516,9 +516,16 @@ function getBaseAnnouncementItems() {
     .sort(compareAnnouncements);
 }
 
+function collectSearchText(value) {
+  if (value == null) return "";
+  if (Array.isArray(value)) return value.map(collectSearchText).join(" ");
+  if (typeof value === "object") return Object.values(value).map(collectSearchText).join(" ");
+  return String(value);
+}
+
 function matchesSearch(item) {
   if (!state.search) return true;
-  const searchable = [item.link, item.additionalLink, ...item.tags].join(" ").toLowerCase();
+  const searchable = collectSearchText(item).toLowerCase();
   return searchable.includes(state.search);
 }
 
