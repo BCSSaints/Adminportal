@@ -161,7 +161,7 @@ button {
 
 .toolbar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 190px auto;
+  grid-template-columns: minmax(0, 1fr) 190px;
   gap: 16px;
   align-items: center;
   margin-top: 46px;
@@ -223,33 +223,6 @@ button {
 .filter-control select:focus {
   border-color: var(--blue-500);
   box-shadow: 0 0 0 3px rgba(58, 124, 255, 0.2);
-}
-
-.ask-ai {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 0;
-  border-radius: 8px;
-  padding: 12px 22px;
-  background: var(--blue-500);
-  color: white;
-  font-size: 0.94rem;
-  font-weight: 700;
-  white-space: nowrap;
-  box-shadow: 0 8px 18px rgba(58, 124, 255, 0.2);
-}
-
-.ask-ai svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
 }
 
 .results-meta {
@@ -447,8 +420,7 @@ button {
   box-shadow: 0 8px 18px rgba(19, 47, 68, 0.16);
 }
 
-.load-more:hover,
-.ask-ai:hover {
+.load-more:hover {
   filter: brightness(0.98);
 }
 
@@ -641,10 +613,6 @@ body.modal-open {
   .toolbar {
     grid-template-columns: 1fr;
     margin-top: 28px;
-  }
-
-  .ask-ai {
-    width: 100%;
   }
 
   .announcement-modal {
