@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BCS Communications Static</title>
+    <style>
+      :root { color-scheme: light; --navy: #132f44; --blue: #d1e5f9; --ink: #1f2f3f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--blue); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+      .top { background: var(--navy); color: white; padding: 28px 18px 34px; }
+      .main { padding: 30px 18px 46px; }
+      .wrap { width: min(1180px, 100%); margin: 0 auto; }
+      h1, h2, h3, p { margin: 0; }
+      h1, h2 { font-size: 1.05rem; letter-spacing: 0; font-weight: 800; }
+      .grid { display: grid; gap: 18px; margin-top: 20px; }
+      .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .announcement-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card { overflow: hidden; border-radius: 8px; background: white; box-shadow: 0 10px 22px rgba(12, 30, 45, 0.1); }
+      .card img { display: block; width: 100%; height: 230px; object-fit: cover; object-position: top center; background: #edf3f8; }
+      .featured-card img { height: 320px; }
+      .card-body { display: grid; gap: 10px; padding: 18px; }
+      .badges { display: flex; flex-wrap: wrap; gap: 7px; }
+      .badges span { display: inline-flex; border-radius: 999px; padding: 5px 9px; background: #e7f0fb; color: #174263; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; }
+      h3 { color: #1f2f3f; font-size: 1.04rem; line-height: 1.25; }
+      .subtitle, details p { color: #42546a; font-size: 0.94rem; line-height: 1.48; }
+      details { border-top: 1px solid #e2e9f1; padding-top: 10px; }
+      summary { color: #1f2f3f; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; }
+      details p { margin-top: 9px; white-space: pre-line; }
+      .links { display: grid; gap: 7px; }
+      .links a { color: #174263; font-size: 0.88rem; overflow-wrap: anywhere; }
+      .empty { margin-top: 18px; color: rgba(255,255,255,0.8); }
+      .main .empty { color: #42546a; }
+      @media (max-width: 820px) { .featured-grid, .announcement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 560px) { .featured-grid, .announcement-grid { grid-template-columns: 1fr; } .card img, .featured-card img { height: auto; } }
+    </style>
+  </head>
+  <body>
+    <section class="top">
+      <div class="wrap">
+        <h1>FEATURED</h1>
+        <div class="grid featured-grid">
+    <article class="card featured-card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/0dd97b37-e4e4-42ee-959b-a4392958a2af/cross_country_coach.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=ef6a5fcdc305c5fe2ea358d73704f7c1b434ed0e605e4897a219172709bdae88&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Cross Country Coach Opening | 2026–2027 School Year artwork">
+      <div class="card-body">
+        
+        <h3>Cross Country Coach Opening | 2026–2027 School Year</h3>
+        <p class="subtitle">Help Us Launch a New Program — Middle &amp; High School</p>
+        <details open><summary>Description</summary><p>We’re looking to start something new at Byne—and we need the right leader to take the first step.
+
+BCS is seeking a Cross Country Coach to launch and lead a new program for Middle School and High School students for the 2026–2027 school year. This is an exciting opportunity to build a program from the ground up, invest in student-athletes, and set the pace for years to come.
+
+If you have a passion for running, mentoring students, and developing a strong team culture, we’d love to connect with you.
+
+Come help us get this program off to a RUNNING start.</p></details>
+        <div class="links"><a href="https://bit.ly/BCSEmploymentApp" target="_blank" rel="noreferrer">Link: https://bit.ly/BCSEmploymentApp</a></div>
+      </div>
+    </article>
+  
+    <article class="card featured-card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/80cbd5a9-6912-468e-a0d5-2ce408c7d2f8/Broadway_Revue_Invitation.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=6f4eee97799d6e7b0886614e296a98aa263a221df494dbf54f06a23cc29c9b8e&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Curtain Up: A Celebration of Broadway — Tuesday, May 12 at 6:30 PM artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Curtain Up: A Celebration of Broadway — Tuesday, May 12 at 6:30 PM</h3>
+        <p class="subtitle">An evening of live Broadway favorites at Byne Church — free and open to the public</p>
+        <details open><summary>Description</summary><p>Step into the spotlight for a memorable night as our talented theatre students bring the magic of Broadway to life. Join us in the church foyer on Tuesday, May 12 at 6:30 PM for a lively performance filled with familiar songs and stage-worthy moments.
+
+Admission is free, and all are welcome. Complimentary coffee and desserts will be served, and donations are gratefully accepted.
+
+Take your seat, enjoy the show, and let the curtain rise on a wonderful evening together.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card featured-card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/435bd123-6b7d-492a-a896-796662c06110/A_vibrant_celebration_graphic_featuring_a_navy_blu-1778096443670.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=58d3cbead50c298d2f8cab52aa1a37822eaf02a8d05ae156cf195329a5cd21ba&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="8th Grade Celebration • Wednesday, May 13 at 8:30 AM artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>8th Grade Celebration • Wednesday, May 13 at 8:30 AM</h3>
+        <p class="subtitle">Honoring the journey. Looking ahead.</p>
+        <details open><summary>Description</summary><p>Join us as we celebrate our 8th grade students and this meaningful milestone as they prepare to step into high school. This special morning will be filled with moments that reflect on where they’ve been and look forward to what’s ahead.
+
+Parents are invited to be part of this joyful and memorable occasion as we recognize growth, achievement, and the road to come.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card featured-card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/2a300145-a117-484e-a368-8e5cc3084eb8/A_wide_169_promotional_banner_design_for_Saints_i-1778098706143.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=12656f15539f433643752478b5e2edf681cbbc4d3b0166ceea06fb2deaab12fb&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Saints in the Summer 2026 T-Shirt Orders Are Open artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Saints in the Summer 2026 T-Shirt Orders Are Open</h3>
+        <p class="subtitle">Gear up for summer adventures—and the Pedal, Scoot, &amp; Ride Parade</p>
+        <details open><summary>Description</summary><p>Saints in the Summer is back for 2026, and it’s better than ever! Order your official Saints in the Summer t-shirt and take it along on all your summer adventures—whether you&#39;re traveling, staying local, enjoying the beach, or serving others.
+
+Be sure to snap a photo in your shirt, tag us, or use #saintsinthesummer. Each month from May through August, one photo will be selected to win a fun summer prize.
+
+A limited bulk order has already been placed. Orders submitted through this form will be fulfilled on a first come, first served basis from that shipment, which will arrive before the last day of school. To ensure your student has a shirt in time for the parade, please place your order as soon as possible.
+
+If additional shirts are needed beyond the initial bulk order, a second order will be placed; however, those shirts may arrive after the school year ends.
+
+Students will wear their shirts on the last day of school for our “Pedal, Scoot, &amp; Ride” Parade—so don’t miss your chance to be part of the fun!</p></details>
+        <div class="links"><a href="https://bit.ly/SaintsInTheSummer26" target="_blank" rel="noreferrer">Link: https://bit.ly/SaintsInTheSummer26</a></div>
+      </div>
+    </article>
+  </div>
+      </div>
+    </section>
+    <section class="main">
+      <div class="wrap">
+        <h2>NEW &amp; ANNOUNCEMENTS</h2>
+        <div class="grid announcement-grid">
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/0dd97b37-e4e4-42ee-959b-a4392958a2af/cross_country_coach.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=ef6a5fcdc305c5fe2ea358d73704f7c1b434ed0e605e4897a219172709bdae88&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Cross Country Coach Opening | 2026–2027 School Year artwork">
+      <div class="card-body">
+        
+        <h3>Cross Country Coach Opening | 2026–2027 School Year</h3>
+        <p class="subtitle">Help Us Launch a New Program — Middle &amp; High School</p>
+        <details open><summary>Description</summary><p>We’re looking to start something new at Byne—and we need the right leader to take the first step.
+
+BCS is seeking a Cross Country Coach to launch and lead a new program for Middle School and High School students for the 2026–2027 school year. This is an exciting opportunity to build a program from the ground up, invest in student-athletes, and set the pace for years to come.
+
+If you have a passion for running, mentoring students, and developing a strong team culture, we’d love to connect with you.
+
+Come help us get this program off to a RUNNING start.</p></details>
+        <div class="links"><a href="https://bit.ly/BCSEmploymentApp" target="_blank" rel="noreferrer">Link: https://bit.ly/BCSEmploymentApp</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/80cbd5a9-6912-468e-a0d5-2ce408c7d2f8/Broadway_Revue_Invitation.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=6f4eee97799d6e7b0886614e296a98aa263a221df494dbf54f06a23cc29c9b8e&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Curtain Up: A Celebration of Broadway — Tuesday, May 12 at 6:30 PM artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Curtain Up: A Celebration of Broadway — Tuesday, May 12 at 6:30 PM</h3>
+        <p class="subtitle">An evening of live Broadway favorites at Byne Church — free and open to the public</p>
+        <details open><summary>Description</summary><p>Step into the spotlight for a memorable night as our talented theatre students bring the magic of Broadway to life. Join us in the church foyer on Tuesday, May 12 at 6:30 PM for a lively performance filled with familiar songs and stage-worthy moments.
+
+Admission is free, and all are welcome. Complimentary coffee and desserts will be served, and donations are gratefully accepted.
+
+Take your seat, enjoy the show, and let the curtain rise on a wonderful evening together.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/435bd123-6b7d-492a-a896-796662c06110/A_vibrant_celebration_graphic_featuring_a_navy_blu-1778096443670.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=58d3cbead50c298d2f8cab52aa1a37822eaf02a8d05ae156cf195329a5cd21ba&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="8th Grade Celebration • Wednesday, May 13 at 8:30 AM artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>8th Grade Celebration • Wednesday, May 13 at 8:30 AM</h3>
+        <p class="subtitle">Honoring the journey. Looking ahead.</p>
+        <details open><summary>Description</summary><p>Join us as we celebrate our 8th grade students and this meaningful milestone as they prepare to step into high school. This special morning will be filled with moments that reflect on where they’ve been and look forward to what’s ahead.
+
+Parents are invited to be part of this joyful and memorable occasion as we recognize growth, achievement, and the road to come.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/2a300145-a117-484e-a368-8e5cc3084eb8/A_wide_169_promotional_banner_design_for_Saints_i-1778098706143.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=12656f15539f433643752478b5e2edf681cbbc4d3b0166ceea06fb2deaab12fb&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Saints in the Summer 2026 T-Shirt Orders Are Open artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Saints in the Summer 2026 T-Shirt Orders Are Open</h3>
+        <p class="subtitle">Gear up for summer adventures—and the Pedal, Scoot, &amp; Ride Parade</p>
+        <details open><summary>Description</summary><p>Saints in the Summer is back for 2026, and it’s better than ever! Order your official Saints in the Summer t-shirt and take it along on all your summer adventures—whether you&#39;re traveling, staying local, enjoying the beach, or serving others.
+
+Be sure to snap a photo in your shirt, tag us, or use #saintsinthesummer. Each month from May through August, one photo will be selected to win a fun summer prize.
+
+A limited bulk order has already been placed. Orders submitted through this form will be fulfilled on a first come, first served basis from that shipment, which will arrive before the last day of school. To ensure your student has a shirt in time for the parade, please place your order as soon as possible.
+
+If additional shirts are needed beyond the initial bulk order, a second order will be placed; however, those shirts may arrive after the school year ends.
+
+Students will wear their shirts on the last day of school for our “Pedal, Scoot, &amp; Ride” Parade—so don’t miss your chance to be part of the fun!</p></details>
+        <div class="links"><a href="https://bit.ly/SaintsInTheSummer26" target="_blank" rel="noreferrer">Link: https://bit.ly/SaintsInTheSummer26</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/7745cdd2-70ef-44d2-aa8b-db0070b952b9/029_BCS_Families_Facebook_Group_2025-08-09_18.30.53.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466WUCMIPEI%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112257Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJIMEYCIQD2JgZgl4Hgnq8m9dLs%2FIQ%2FKHr%2BNR6tndsgkNoB%2BjkBrwIhAKA2BnpshMPLG43xuMt6EqpnAMcJckPAUheNM4%2BgIajBKv8DCBQQABoMNjM3NDIzMTgzODA1Igy48kueHofh1PQsrOwq3AOWQC1amJqHDwdjTWUDxPD8kj8I9c7PNhgV7%2BIHTbProBg9wfRM9SamR1IbgWkFYROTsLJTrFfKvJaFtnST13QpPRwXSs3e9g%2BT2Y6gfGGLWdpe3QE4vHPiAgxyPJw2lMroAtB7c39yyAjAyn0Fe4wG1tz2XjByKN21oyrz4UqkVYgsUjFXZk%2FWPv6vDKOwOjeT59TB938d49SSkAG7Jzkm6jI8DSjvkcxy3mrcw1IPF8KzVJrQOaLi4JTK%2BYuh%2BAwCwKQ8OyqSvgF5HY%2Fesjw8dwAZ2jzVGs%2FC0afKtuf9OBQpDnaFIxH%2FYg87feWXiLhtHiT5x%2FvUFY9HL1AMnnR3zi2oqyKjvpL%2BYYdXb05mnT6GVQPJiGyBn4ESCXOYHz9KuGdlMlPptCGV%2Fl8Q1KS5jKTzNXD4GjqY%2BRmzt4MSkbps4%2BKilF9KfkwKxaKEwWUzfTmWCiOL0jVk9SXh2E1f7jA4gIQp5UFMq7qrOK1eh0w7akvZIi%2FJnp0V3ptjtkepUYJIQqwk%2FnPwE%2FZKseG1YXL0toElHjKLu0LcXVCz%2FHIll%2B79FznjPUTcUbxNl4mBLKYYT2CZIoBsDLDpTKWE4y5kKO85UCafSWGu6B1OeOAlTQX2CCgg%2Ba0OTjCA5obQBjqkASKA%2BMIWkeseI1nLZGHxPtnft7MAXTAZhAPIwMBfKRBYBNVl6hmR41q9qqpZbRB3JKXsCBd%2FqmNJNzNUbqyYiYYIrfh0qukmO%2FKnhijbwHZSlXFmvXLUHYX4u4ZS2loUIKFSYyIAYVAW1CtFD4SwEzoCu4IPM1%2BOd0B9oRKfl99z17YLO5tG0NqZqYy0OPGr81Hb6DdD%2FYDg4%2FnY9YN1OGXioJQ2&amp;X-Amz-Signature=5695d00d9992adaa90dcaa93d6043c4498c8166ad6c75f1c2c87e594d53e6e77&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="BCS Families Facebook Group artwork">
+      <div class="card-body">
+        
+        <h3>BCS Families Facebook Group</h3>
+        <p class="subtitle">Join Our Online Community</p>
+        <details open><summary>Description</summary><p>Connect with other BCS families through our private Facebook group. Share updates, ask questions, and build community.</p></details>
+        <div class="links"><a href="https://www.facebook.com/groups/567998921332833/" target="_blank" rel="noreferrer">Link: https://www.facebook.com/groups/567998921332833/</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/37c4df02-fca7-434c-a287-768c48a08f3a/028_School_Calendar_2025-08-09_18.30.47.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466WUCMIPEI%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112257Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJIMEYCIQD2JgZgl4Hgnq8m9dLs%2FIQ%2FKHr%2BNR6tndsgkNoB%2BjkBrwIhAKA2BnpshMPLG43xuMt6EqpnAMcJckPAUheNM4%2BgIajBKv8DCBQQABoMNjM3NDIzMTgzODA1Igy48kueHofh1PQsrOwq3AOWQC1amJqHDwdjTWUDxPD8kj8I9c7PNhgV7%2BIHTbProBg9wfRM9SamR1IbgWkFYROTsLJTrFfKvJaFtnST13QpPRwXSs3e9g%2BT2Y6gfGGLWdpe3QE4vHPiAgxyPJw2lMroAtB7c39yyAjAyn0Fe4wG1tz2XjByKN21oyrz4UqkVYgsUjFXZk%2FWPv6vDKOwOjeT59TB938d49SSkAG7Jzkm6jI8DSjvkcxy3mrcw1IPF8KzVJrQOaLi4JTK%2BYuh%2BAwCwKQ8OyqSvgF5HY%2Fesjw8dwAZ2jzVGs%2FC0afKtuf9OBQpDnaFIxH%2FYg87feWXiLhtHiT5x%2FvUFY9HL1AMnnR3zi2oqyKjvpL%2BYYdXb05mnT6GVQPJiGyBn4ESCXOYHz9KuGdlMlPptCGV%2Fl8Q1KS5jKTzNXD4GjqY%2BRmzt4MSkbps4%2BKilF9KfkwKxaKEwWUzfTmWCiOL0jVk9SXh2E1f7jA4gIQp5UFMq7qrOK1eh0w7akvZIi%2FJnp0V3ptjtkepUYJIQqwk%2FnPwE%2FZKseG1YXL0toElHjKLu0LcXVCz%2FHIll%2B79FznjPUTcUbxNl4mBLKYYT2CZIoBsDLDpTKWE4y5kKO85UCafSWGu6B1OeOAlTQX2CCgg%2Ba0OTjCA5obQBjqkASKA%2BMIWkeseI1nLZGHxPtnft7MAXTAZhAPIwMBfKRBYBNVl6hmR41q9qqpZbRB3JKXsCBd%2FqmNJNzNUbqyYiYYIrfh0qukmO%2FKnhijbwHZSlXFmvXLUHYX4u4ZS2loUIKFSYyIAYVAW1CtFD4SwEzoCu4IPM1%2BOd0B9oRKfl99z17YLO5tG0NqZqYy0OPGr81Hb6DdD%2FYDg4%2FnY9YN1OGXioJQ2&amp;X-Amz-Signature=f3175ab363a97bba0b2976ea7252348e1902442b0568f98779eacd5d32775079&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="School Calendar artwork">
+      <div class="card-body">
+        
+        <h3>School Calendar</h3>
+        <p class="subtitle">26/27 Full Year at a Glance</p>
+        <details open><summary>Description</summary><p>The 2026–2027 school year calendar is now available, giving your family a clear view of the year ahead. From the first day of school to holidays, breaks, and key events, it’s all mapped out to help you plan with confidence.
+
+We encourage you to review the calendar and mark important dates early—because a well-planned year is already off to a strong start.</p></details>
+        <div class="links"><a href="https://drive.google.com/file/d/1o69DLuDfgQ0Et3raQ7KoyPxC4w_BqxJi/view?usp=sharing" target="_blank" rel="noreferrer">Link: https://drive.google.com/file/d/1o69DLuDfgQ0Et3raQ7KoyPxC4w_BqxJi/view?usp=sharing</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/a78e0cc3-dcf8-4bf2-9098-a5e2acc5e7e5/epKSuvFA.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=e9fda4b8223e8b0525dcd3ca07dcd27db6b7b17d60b0f2b286d8b3ff27addd79&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Saints in Camo artwork">
+      <div class="card-body">
+        
+        <h3>Saints in Camo</h3>
+        <p class="subtitle">A New Approved Uniform Favorite from Auti Love</p>
+        <details open><summary>Description</summary><p>We’re excited to share a new way our students can show school pride while supporting a meaningful mission. AutiLove is now offering their popular camo polo shirt in our official school colors, adding the BCS logo for only $5. Polo is regulary $80 and they run sales frequently.
+
+This piece has been added to our approved uniform options, meaning students are welcome to wear it to school. Even better, AutiLove supports children with special needs through their work — so 10% of every purchase gives back.
+
+Looking sharp, supporting a great cause, and repping the Saints? That’s a three-peat worth cheering for.</p></details>
+        <div class="links"><a href="https://www.facebook.com/share/p/1CBBWkt3k8/" target="_blank" rel="noreferrer">Link: https://www.facebook.com/share/p/1CBBWkt3k8/</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/ef63ce41-e036-46a1-becf-b97ec7ba53d2/Domino_Pizza.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=7bd2d0389fe6d699ab6494665f38738a1475f4036425a3f64a1af133ea6192fe&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Domino’s Fundraiser Notice artwork">
+      <div class="card-body">
+        
+        <h3>Domino’s Fundraiser Notice</h3>
+        <p class="subtitle">Domino’s Slice the Price Card Update &amp; Refund Details</p>
+        <details open><summary>Description</summary><p>We are grateful for the support our families have shown through the Domino’s Slice the Price card fundraiser over the years. It has truly been a blessing to both our school and our families.
+
+Due to a recent management change at our local Domino’s locations, the stores will no longer be able to accept the cards. This change was unexpected and outside of our control.
+
+If you purchased a card, you are eligible for a full refund. There is no need to return the card. Simply call Domino’s fundraising customer service at 866-252-6103, let them know you are with Byne Christian School and that your local stores are no longer honoring the cards due to a management change, and request a refund. The amount will be credited back to the original form of payment.
+
+We appreciate your understanding and continued support of our school’s fundraising efforts. Your partnership makes a lasting difference for our students and campus.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/99b38a70-9a21-4e58-8532-785e3159ab92/2026_Spring_Lunch_Menu.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=695ad70dea029315a6108e358a70dc03057587d7fe2be5a6553e05512b6eb054&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Spring 2026 Lunch Menu artwork">
+      <div class="card-body">
+        
+        <h3>Spring 2026 Lunch Menu</h3>
+        <p class="subtitle">3/2 through 3/5</p>
+        <details open><summary>Description</summary><p>Lunch is available Monday through Thursday for $6, provided by BJs. Fridays are fundraiser days, so students should bring a lunch from home.
+
+Please review the full menu as you plan ahead. Beginning March 1, all student lunch accounts must be prepaid, and students must have sufficient funds available to purchase lunch. Log in to Gradelink to add funds and be sure to designate the payment for lunch.
+
+For questions, please contact Sam Rambo at srambo@bcssaints.org.</p></details>
+        <div class="links"><a href="https://drive.google.com/file/d/1Yol8vXZ3gySKB5TZf4RFsvdEJGRdcebo/view?usp=sharing" target="_blank" rel="noreferrer">Link: https://drive.google.com/file/d/1Yol8vXZ3gySKB5TZf4RFsvdEJGRdcebo/view?usp=sharing</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/6096d7ba-6ac3-4ac5-98ee-dd10bb0360a0/A_professional_charity_fundraiser_poster_graphic_f-1776285905518.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=35cada73764ff0e597a656bc8b10cc7b2a6fa0712dd4f76886b12f4d5e40d24f&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Thespian Troupe Service Project | Sleep in Heavenly Peace artwork">
+      <div class="card-body">
+        
+        <h3>Thespian Troupe Service Project | Sleep in Heavenly Peace</h3>
+        <p class="subtitle">Don’t Miss It — Help Us Serve Our Community</p>
+        <details open><summary>Description</summary><p>Our Thespian Troupe is partnering with Sleep in Heavenly Peace to help meet a real need in our community—and you can be part of it.
+
+Did you know there are hundreds of children in our area who don’t have a bed to sleep in? Sleep in Heavenly Peace works to provide beds for children who need one, and we’re collecting items to help make those beds feel like home.
+
+You can help by donating pillows, complete twin-size bedding sets, and/or “bed in a bag” sets. Items can be purchased from our Amazon wishlist (set up to ship directly to BCS), or you may purchase items from Walmart, online, or your preferred store and bring them to the school office.
+
+🗓 Donations are due by May 15 (the last day of school).
+
+If you have questions, please contact Vickie Knuckles at vknuckles@bcssaints.org.
+
+Let’s come together to make a difference—because every child deserves a good night’s sleep.</p></details>
+        <div class="links"><a href="https://www.amazon.com/registries/gl/guest-view/1PBEB23TSDIO?ref_=cm_sw_r_cp_ud_ggr-subnav-share_EHRJMH4GSC0F222P2AS5" target="_blank" rel="noreferrer">Link: https://www.amazon.com/registries/gl/guest-view/1PBEB23TSDIO?ref_=cm_sw_r_cp_ud_ggr-subnav-share_EHRJMH4GSC0F222P2AS5</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/1ab92681-cd49-4da9-8c3d-a0ed508d43bc/Kindergarten_Graduation-2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=950e7d8d2089a80be40137cf8a4ef5bbf941d5ef82e13b7d3bb5ede8d2e5b57e&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Kindergarten Graduation | May 14 artwork">
+      <div class="card-body">
+        
+        <h3>Kindergarten Graduation | May 14</h3>
+        <p class="subtitle">Don’t Miss It — 6:00 PM (Doors Open at 5:30 PM)</p>
+        <details open><summary>Description</summary><p>Our youngest Saints are ready to take a big step, and this sweet milestone is one you won’t want to miss. Join us as we celebrate our Kindergarten class on Thursday, May 14 at 6:00 PM. Doors will open at 5:30 PM.
+
+A special tradition each year is the Kindergarten display tables down the front foyer hallways—each student is honored with a decorated space that reflects their personality, memories, and the year they’ve had.
+
+Parents may begin decorating tables starting Tuesday, May 12 at 12:00 PM through Wednesday, May 13 at 5:00 PM. Each student will have half of an 8-foot table, and a black tablecloth will be provided. Linked, you’ll find examples from years past to help spark ideas.
+
+Come early, take a stroll through the displays, and enjoy celebrating these students as they graduate in style. 🎓</p></details>
+        <div class="links"><a href="https://drive.google.com/drive/folders/1zHd-Zzlh_Qn6qI7jPm9_AxfGSOu9w6ni?usp=drive_link" target="_blank" rel="noreferrer">Link: https://drive.google.com/drive/folders/1zHd-Zzlh_Qn6qI7jPm9_AxfGSOu9w6ni?usp=drive_link</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/ae00d38e-c889-488f-bb1e-14508a23c571/Modern_formal_awards_ceremony_announcement_graphi-1776466823578.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=34db831c57956dd31d5c38176e0f6f09672d30d9bfa590f07df57e6bd362e9c7&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Awards Ceremony | May 15 artwork">
+      <div class="card-body">
+        
+        <h3>Awards Ceremony | May 15</h3>
+        <p class="subtitle">You’re Invited — 8:30 AM</p>
+        <details open><summary>Description</summary><p>You’re invited to join us as we celebrate a year of hard work, growth, and achievement at our Awards Ceremony on Friday, May 15 at 8:30 AM.
+
+This special time allows us to recognize students for their accomplishments and reflect on all that has been learned and achieved throughout the year.
+
+Make plans to attend as we honor our students—because moments like these deserve a full house.</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/849f842b-7920-43a1-92be-803e69b8b313/basketball_camp.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=98573a6731d47cdbc994d878076c39a1f7a965412dcf706c60da9c101135d329&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Basketball Camp | June 2–4 artwork">
+      <div class="card-body">
+        
+        <h3>Basketball Camp | June 2–4</h3>
+        <p class="subtitle">Train Hard — Two Age Groups</p>
+        <details open><summary>Description</summary><p>Hit the court this summer at our Basketball Camp, designed for players of all levels to build skills, confidence, and game-time awareness.
+
+🏀 Camp Times by Grade:
+• 3rd–6th Grade — 10:00 AM–12:00 PM
+• 7th–12th Grade — 12:00–3:00 PM
+
+🍽 Lunch will be provided at 12:00 PM for both groups
+👕 Camp t-shirt included
+💲 Cost: $60
+🗓 Registration Deadline: May 8
+
+Whether you’re working on fundamentals or fine-tuning your shot, this is your time to step onto the court and make it count—because nothing but net is a good way to start the summer.</p></details>
+        <div class="links"><a href="https://pci.jotform.com/form/241525662833155" target="_blank" rel="noreferrer">Link: https://pci.jotform.com/form/241525662833155</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/e4bb71d8-161a-4a36-b2a9-9b2295325177/volleyball_camp.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=13bf20d78f95ba767d3f8fe1fdb419562cfd34d10629f3a28c4b2d319b0d54b7&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Volleyball Camp | May 26–28 artwork">
+      <div class="card-body">
+        
+        <h3>Volleyball Camp | May 26–28</h3>
+        <p class="subtitle">6th–12th Grade — 9:00 AM–12:00 PM</p>
+        <details open><summary>Description</summary><p>Serve up your summer with our Volleyball Camp for rising 6th–12th graders, happening May 26–28 from 9:00 AM to 12:00 PM each day.
+
+Whether you’re learning the basics or sharpening your skills, this camp is a great way to build confidence, teamwork, and court awareness.
+
+🏐 Cost: $50
+🗓 Registration Deadline: May 1
+👕 Camp t-shirt included
+🍽 Lunch provided on the last day
+
+Spots won’t stay open long—don’t let this opportunity slip through your hands.</p></details>
+        <div class="links"><a href="https://pci.jotform.com/form/242054426478055" target="_blank" rel="noreferrer">Link: https://pci.jotform.com/form/242054426478055</a></div>
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/c745872e-90f5-47c6-915f-988f6178fe98/Pedal_Scoot__Ride.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=d680783fe1e911318e29b90940ab6b771a8144588c634e3a1795986749e4b6e7&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Pedal, Scoot &amp; Ride Parade | May 15 artwork">
+      <div class="card-body">
+        
+        <h3>Pedal, Scoot &amp; Ride Parade | May 15</h3>
+        <p class="subtitle">Kick Off Summer in Style — 10:30 AM Parade | 11:30 AM Early Dismissal</p>
+        <details open><summary>Description</summary><p>Rev those trikes, shine those scooters, and roll out the bikes—it’s time for our annual Pedal, Scoot &amp; Ride Parade!
+
+Join us on May 15 at 10:30 AM as our students cruise into summer with wheels, smiles, and a whole lot of school spirit. Decorate your ride, bring the energy, and get ready for a parade that’s wheely fun from start to finish.
+
+Please note: This is a pedal-powered event—no motorized wheels (hoverboards, e-bikes, etc.). Helmets are required! Please make sure to have your student’s name written on their ride.
+
+We’ll wrap up the celebration with early dismissal at 11:30 AM, sending everyone off to summer break in style.
+Let the good times roll! 🚲✨</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/5e74914e-17e2-4d8b-89c0-59507c064bad/School_break.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=d0497b8d41bed30faac3a5c2ae6a429424aa9fd2274cb63b92eb36e5939e9492&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Last Day of School | May 15 artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Last Day of School | May 15</h3>
+        <p class="subtitle">Celebrate the Day — Early Dismissal at 11:30 AM</p>
+        <details open><summary>Description</summary><p>Don’t forget—May 15 is a big day at BCS!
+
+We’ll wrap up the school year with a full morning of celebration:
+🎓 Awards Ceremony — 8:30 AM
+🚲 Pedal, Scoot &amp; Ride Parade — 10:30 AM
+
+After a morning full of milestones and memories, we will have early dismissal at 11:30 AM as we officially kick off summer.
+
+Make plans to join us as we celebrate all that God has done this year—then roll right into summer. ☀️</p></details>
+        
+      </div>
+    </article>
+  
+    <article class="card">
+      <img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/cd011567-ff09-461e-a249-d9b5b9f4ceb7/5503f96e-a173-4d56-87e9-604e05206696/VBSv-_Keepers_of_the_Kingdom.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB4665CPPJKJC%2F20260511%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260511T112258Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEsaCXVzLXdlc3QtMiJGMEQCIGFQbv2URGLnufu%2BD1HuC5wxE4zUyAN%2Bgv3kvmMo8Wb9AiA3PZ3Fk0i7QSB94dlTaXWx%2Bdwa7D7m2MKiIt%2BP029A6yr%2FAwgUEAAaDDYzNzQyMzE4MzgwNSIMCZ8PPIWCNC5sdqtkKtwDbo47DYqD%2FeDgSMYRev2%2BX88PQSONMDJ70gGsKIuvuRvdYR6phKUPZpe5EdE8vOY9xecZyHhlMAwvWp9xgAFVpeggqn%2BpZk2p1iIldgBCU3y2REdoFHJxGmMnGhrj3cl8MB0jO5J1JDlkJvEEcjO2Tjqa0zdovGDjqce5fz0T7L5ifa9zKvvikxugR6Wh6CdnOlf%2BdcUe4CcGiZB6VLHFrin8SwDSOvKOQtS67r8ksApcd49mgMX7PcNVFo9poTMQIvZch8mxSJLVILxHZ2QqbC1xTyxSoVnxmJI3CBWJ9Vp9vElny2tUHX6s6tJMqHzLE1%2F13BXticz%2B6ZH3YXpFfHGPl3o2myBCVvpi28YTlYL0QNhjdckirad1CAex36sJIboeUftce%2BIztDVw1jEuHx%2BSvJ3glKNN0VmcXSJvAYGiUSdQzD3rwMF%2F7GQWnFoGpQJw0n6CeYXwIbL5HXHbaiJ6uGyDBAolf8UzdhGnECPQlB8Cz%2Bi8WM5yYcFbwvooXd3c24UPt0wDLwa6zXWg1RhJg7rHJVgKLowArd9L6yIATt1q3F3MxH9IlGWoQe5stG6XDJulqMsP6WYsBVb4ChVeuTWFsC7gnfIvcBDCCWsubgBjO0mep%2BlVV74wkeWG0AY6pgEC5nq8mn1ZM1TQLBTSwHGRufEF2E6M5BI%2B6C55dQeGUnROIKJt2qUcThuQ4qxKdd3AqbsOpxn%2FJZmDlBNBcwcxX6%2Fp3RID%2F3qtRiQwv7lr6SpBdiiBs92tElXB4hq%2BhESFVlLt9iKhJI1MgOYFIMT%2FsgPPXbFv6qdx1mZG%2B7pKMdvhecLzrffrilDbYuzkklbNrh1X6e5jTcGAgNXFFfczDdA%2BBWnU&amp;X-Amz-Signature=7b6ed1998864f1619e6397ae7e8aa4b5bcc76a2f481abd1413d82cf32bc70202&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="Keepers of the Kingdom VBS | June 22–25 artwork">
+      <div class="card-body">
+        <div class="badges"><span>NEW</span></div>
+        <h3>Keepers of the Kingdom VBS | June 22–25</h3>
+        <p class="subtitle">An exciting week of faith, fun, and fellowship for rising 5th grade and under!</p>
+        <details open><summary>Description</summary><p>Join us for Vacation Bible School at Byne Church, June 22–25, from 5:00–8:00 PM each evening! Children ages nursery through rising 5th grade are invited to become “Keepers of the Kingdom” as they learn about the Armor of God and how to stand strong in truth, courage, and faith.
+
+Each night will include engaging Bible lessons, fun games and activities, music, fellowship, and supper provided for all participants. Free for all ages.
+
+We’ll also kick off the week with a special VBS Sunday on June 21 at 10:45 AM. We would love for your family to join us!
+
+⚔️ Pre-register today!
+
+Questions? Contact Misty Pate at mpate@byne.org.</p></details>
+        <div class="links"><a href="https://bit.ly/ByneVBS2026" target="_blank" rel="noreferrer">Link: https://bit.ly/ByneVBS2026</a></div>
+      </div>
+    </article>
+  </div>
+      </div>
+    </section>
+  </body>
+</html>

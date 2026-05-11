@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "start": "node server.js",
-    "test": "node --check script.js && node --check server.js && node --check netlify/functions/announcements.js"
+    "generate:gradelink": "node tools/generate-gradelink-static.js",
+    "test": "node --check script.js && node --check server.js && node --check netlify/functions/announcements.js && node --check netlify/functions/embed.js && node --check tools/generate-gradelink-static.js"
   },
   "keywords": [],
   "author": "",
