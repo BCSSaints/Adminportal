@@ -1,7 +1,9 @@
 const fs = require("node:fs");
+const crypto = require("node:crypto");
 const path = require("node:path");
 
 const OUTPUT_PATH = path.join(__dirname, "..", "gradelink-static.html");
+const IMAGE_OUTPUT_DIR = path.join(__dirname, "..", "assets", "gradelink");
 const SOURCE_URL = "https://bcs-communications-portal.netlify.app/.netlify/functions/announcements";
 
 function escapeHTML(value) {
@@ -42,6 +44,59 @@ function isLivePublicItem(item) {
 function compareAnnouncements(a, b) {
   if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
   return a.priority - b.priority;
+}
+
+function slugify(value) {
+  return String(value || "announcement")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 70) || "announcement";
+}
+
+function extensionFromContentType(contentType) {
+  if (contentType.includes("image/png")) return ".png";
+  if (contentType.includes("image/webp")) return ".webp";
+  if (contentType.includes("image/gif")) return ".gif";
+  if (contentType.includes("image/svg")) return ".svg";
+  return ".jpg";
+}
+
+async function localizeImage(item) {
+  if (!item.contentUpload) return item;
+
+  try {
+    const response = await fetch(item.contentUpload);
+    const contentType = response.headers.get("content-type") || "";
+    if (!response.ok || !contentType.startsWith("image/")) {
+      return { ...item, contentUpload: "" };
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const hash = crypto.createHash("sha1").update(buffer).digest("hex").slice(0, 10);
+    const filename = `${slugify(item.title)}-${hash}${extensionFromContentType(contentType)}`;
+    const filePath = path.join(IMAGE_OUTPUT_DIR, filename);
+
+    fs.mkdirSync(IMAGE_OUTPUT_DIR, { recursive: true });
+    fs.writeFileSync(filePath, buffer);
+
+    return { ...item, contentUpload: `assets/gradelink/${filename}` };
+  } catch (error) {
+    console.warn(`Skipping image for ${item.title}: ${error.message}`);
+    return { ...item, contentUpload: "" };
+  }
+}
+
+async function localizeImages(items) {
+  fs.rmSync(IMAGE_OUTPUT_DIR, { recursive: true, force: true });
+  fs.mkdirSync(IMAGE_OUTPUT_DIR, { recursive: true });
+
+  const localized = [];
+  for (const item of items) {
+    localized.push(await localizeImage(item));
+  }
+  return localized;
 }
 
 function badgeMarkup(badges = []) {
@@ -147,8 +202,9 @@ async function main() {
   const payload = await response.json();
   const items = payload.announcements || [];
   const livePublic = items.filter(isLivePublicItem).sort(compareAnnouncements);
-  const featured = livePublic.filter((item) => isNonEmpty(item.featured));
-  const announcements = livePublic.filter((item) => isNonEmpty(item.visible));
+  const localized = await localizeImages(livePublic);
+  const featured = localized.filter((item) => isNonEmpty(item.featured));
+  const announcements = localized.filter((item) => isNonEmpty(item.visible));
 
   fs.writeFileSync(OUTPUT_PATH, pageMarkup(featured, announcements));
   console.log(`Wrote ${OUTPUT_PATH} with ${featured.length} featured and ${announcements.length} announcements.`);
