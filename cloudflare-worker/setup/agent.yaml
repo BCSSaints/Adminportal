@@ -1,0 +1,20 @@
+# Agent definition for use with the Anthropic CLI (ant).
+# Run: ant agent create --file setup/agent.yaml
+#
+# After creation, store the returned agent ID and version:
+#   wrangler secret put AGENT_ID
+#   wrangler secret put AGENT_VERSION
+
+name: cloudflare-claude-agent
+model: claude-opus-4-7
+system: |
+  You are a helpful AI assistant with access to powerful tools including web browsing,
+  code execution, and file operations. You help users accomplish their tasks efficiently,
+  clearly, and accurately. When using tools, explain what you are doing so the user
+  can follow along.
+thinking:
+  type: adaptive
+tools:
+  - type: agent_toolset_20260401
+    default_config:
+      enabled: true
