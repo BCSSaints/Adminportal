@@ -1,0 +1,17 @@
+name = "claude-managed-agent"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Non-sensitive configuration
+[vars]
+# Add non-secret vars here if needed
+
+# Secrets — set these via the Wrangler CLI before deploying:
+#   wrangler secret put ANTHROPIC_API_KEY
+#   wrangler secret put AGENT_ID
+#   wrangler secret put AGENT_VERSION
+#   wrangler secret put ENVIRONMENT_ID
+#   wrangler secret put ACCESS_TOKEN   # recommended: gates /chat behind a shared token
+#
+# For local development, copy .dev.vars.example to .dev.vars and fill in values.

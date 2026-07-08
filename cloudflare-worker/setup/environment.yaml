@@ -1,0 +1,11 @@
+# Environment definition for use with the Anthropic CLI (ant).
+# Run: ant environment create --file setup/environment.yaml
+#
+# After creation, store the returned environment ID:
+#   wrangler secret put ENVIRONMENT_ID
+
+name: cloudflare-worker-environment
+config:
+  type: cloud
+  networking:
+    type: unrestricted

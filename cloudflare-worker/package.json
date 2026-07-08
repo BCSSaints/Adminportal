@@ -1,0 +1,21 @@
+{
+  "name": "claude-cloudflare-agent",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker hosting a Claude Managed Agent via Anthropic's Managed Agents API",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "setup": "npx tsx setup/setup.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.97.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  }
+}
