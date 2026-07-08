@@ -12,5 +12,6 @@ compatibility_flags = ["nodejs_compat"]
 #   wrangler secret put AGENT_ID
 #   wrangler secret put AGENT_VERSION
 #   wrangler secret put ENVIRONMENT_ID
+#   wrangler secret put ACCESS_TOKEN   # recommended: gates /chat behind a shared token
 #
 # For local development, copy .dev.vars.example to .dev.vars and fill in values.

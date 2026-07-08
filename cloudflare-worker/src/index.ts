@@ -5,6 +5,10 @@ export interface Env {
   AGENT_ID: string;
   AGENT_VERSION: string;
   ENVIRONMENT_ID: string;
+  // Optional shared secret. When set, /chat requires a matching
+  // X-Access-Token header — without it anyone who finds the worker URL
+  // can spend the Anthropic API key.
+  ACCESS_TOKEN?: string;
 }
 
 // HTML for the chat UI. Uses String.fromCharCode(10) for newline in JS strings
@@ -54,6 +58,10 @@ const CHAT_HTML = `<!DOCTYPE html>
     const inputEl = document.getElementById('msg-input');
     const btnEl   = document.getElementById('send-btn');
 
+    // Reused across messages so the conversation keeps its context.
+    let sessionId = null;
+    let accessToken = sessionStorage.getItem('agent-access-token') || '';
+
     function esc(s) {
       return String(s)
         .replace(/&/g, '&amp;')
@@ -80,6 +88,16 @@ const CHAT_HTML = `<!DOCTYPE html>
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
     });
 
+    function postChat(text) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (accessToken) headers['X-Access-Token'] = accessToken;
+      return fetch('/chat', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ message: text, session_id: sessionId }),
+      });
+    }
+
     async function send() {
       const text = inputEl.value.trim();
       if (!text || btnEl.disabled) return;
@@ -95,11 +113,16 @@ const CHAT_HTML = `<!DOCTYPE html>
       let agentText = '';
 
       try {
-        const res = await fetch('/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text }),
-        });
+        let res = await postChat(text);
+
+        if (res.status === 401) {
+          const entered = prompt('This agent is protected. Enter the access token:');
+          if (entered) {
+            accessToken = entered.trim();
+            sessionStorage.setItem('agent-access-token', accessToken);
+            res = await postChat(text);
+          }
+        }
 
         if (!res.ok) {
           const err = await res.json().catch(function() { return { error: res.statusText }; });
@@ -144,6 +167,7 @@ const CHAT_HTML = `<!DOCTYPE html>
               statusEl.style.display = '';
               statusEl.innerHTML = 'Using tool: <span class="tool-badge">' + esc(evt.name) + '</span>';
             } else if (evt.type === 'session.status_idle' || evt.type === 'done') {
+              if (evt.session_id) sessionId = evt.session_id;
               statusEl.remove();
             } else if (evt.type === 'error') {
               statusEl.className = 'msg error';
@@ -167,10 +191,6 @@ export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders() });
-    }
-
     if (url.pathname === "/" && request.method === "GET") {
       return new Response(CHAT_HTML, {
         headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -185,19 +205,18 @@ export default {
   },
 };
 
-function corsHeaders(): HeadersInit {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-}
-
 async function handleChat(
   request: Request,
   env: Env,
   ctx: ExecutionContext,
 ): Promise<Response> {
+  if (env.ACCESS_TOKEN && request.headers.get("x-access-token") !== env.ACCESS_TOKEN) {
+    return new Response(JSON.stringify({ error: "Invalid or missing access token." }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   if (!env.ANTHROPIC_API_KEY || !env.AGENT_ID || !env.ENVIRONMENT_ID) {
     return new Response(
       JSON.stringify({
@@ -209,10 +228,13 @@ async function handleChat(
   }
 
   let message: string;
+  let requestedSessionId: string | undefined;
   try {
-    const body = (await request.json()) as { message?: string };
+    const body = (await request.json()) as { message?: string; session_id?: string };
     message = (body.message ?? "").trim();
     if (!message) throw new Error("empty");
+    requestedSessionId =
+      typeof body.session_id === "string" && body.session_id ? body.session_id : undefined;
   } catch {
     return new Response(
       JSON.stringify({ error: 'Expected JSON body: { "message": "string" }' }),
@@ -222,26 +244,31 @@ async function handleChat(
 
   const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
 
-  // Create a fresh session for this request.
-  // Agent and environment are long-lived resources created once via setup/setup.ts.
+  // Reuse the caller's session when one is provided so the conversation keeps
+  // its context; otherwise create a fresh session. Agent and environment are
+  // long-lived resources created once via setup/setup.ts.
   let sessionId: string;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const betaSessions = client.beta.sessions as any;
-    const session = await betaSessions.create({
-      agent: {
-        type: "agent",
-        id: env.AGENT_ID,
-        version: parseInt(env.AGENT_VERSION || "1", 10),
-      },
-      environment_id: env.ENVIRONMENT_ID,
-    });
-    sessionId = session.id as string;
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: `Failed to create agent session: ${err}` }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+  if (requestedSessionId) {
+    sessionId = requestedSessionId;
+  } else {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const betaSessions = client.beta.sessions as any;
+      const session = await betaSessions.create({
+        agent: {
+          type: "agent",
+          id: env.AGENT_ID,
+          version: parseInt(env.AGENT_VERSION || "1", 10),
+        },
+        environment_id: env.ENVIRONMENT_ID,
+      });
+      sessionId = session.id as string;
+    } catch (err) {
+      return new Response(
+        JSON.stringify({ error: `Failed to create agent session: ${err}` }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
+      );
+    }
   }
 
   const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
@@ -299,7 +326,6 @@ async function handleChat(
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      ...corsHeaders(),
     },
   });
 }
