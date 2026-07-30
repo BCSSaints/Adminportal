@@ -75,6 +75,8 @@ button {
   z-index: 30;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 18px;
   min-height: 64px;
   padding: 14px clamp(18px, 4vw, 44px);
   background: #f4f7fc;
@@ -103,6 +105,38 @@ button {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
+}
+
+.portal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.portal-tabs a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #36526d;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.portal-tabs a:hover,
+.portal-tabs a:focus-visible {
+  border-color: #cfdae8;
+  background: white;
+}
+
+.portal-tabs a[aria-current="page"] {
+  background: var(--navy-900);
+  color: white;
 }
 
 .portal-container {
@@ -137,10 +171,13 @@ button {
   background: var(--blue-100);
 }
 
-.announcements-band h2 {
+.announcements-band h2,
+.calendar-page h1 {
   color: #26313b;
   font-size: clamp(1.55rem, 3vw, 2.05rem);
   font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .featured-grid,
@@ -424,6 +461,59 @@ button {
   filter: brightness(0.98);
 }
 
+.calendar-page {
+  min-height: calc(100vh - 64px);
+  padding: 40px 0 70px;
+  background: var(--blue-100);
+}
+
+.calendar-panel {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+  border: 1px solid rgba(19, 47, 68, 0.08);
+  border-radius: var(--radius);
+  padding: clamp(22px, 4vw, 34px);
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.calendar-panel p {
+  max-width: 680px;
+  margin: 0 0 16px;
+  color: #42546a;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.calendar-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: var(--navy-900);
+  color: white;
+  font-size: 0.94rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.calendar-panel code {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border: 1px solid #d9e4ef;
+  border-radius: 8px;
+  padding: 13px 14px;
+  background: #f8fafc;
+  color: #42546a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .modal-shell {
   position: fixed;
   inset: 0;
@@ -602,7 +692,14 @@ body.modal-open {
 
 @media (max-width: 860px) {
   .portal-header {
+    align-items: flex-start;
+    flex-direction: column;
     min-height: 58px;
+  }
+
+  .portal-tabs {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .featured-grid,

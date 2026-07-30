@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <a class="skip-link" href="#announcements">Skip to announcements</a>
+    <a class="skip-link" href="#announcements">Skip to content</a>
 
     <header class="portal-header" aria-label="BCS Communications header">
       <a class="brand" href="/" aria-label="BCS Communications home">
@@ -23,63 +23,155 @@
         </span>
         <span>BCS Communications</span>
       </a>
+      <nav class="portal-tabs" aria-label="Communications hub sections">
+        <a href="#announcements" data-page-link="announcements" aria-current="page">Announcements</a>
+        <a href="#resources" data-page-link="resources">Resources</a>
+        <a href="#athletics-calendar" data-page-link="athletics-calendar">Athletics Calendar</a>
+        <a href="#academic-calendar" data-page-link="academic-calendar">Academic Calendar</a>
+      </nav>
     </header>
 
     <main>
-      <section class="featured-band" aria-labelledby="featured-title">
+      <div class="hub-page" id="announcements" data-page="announcements">
+        <section class="featured-band" aria-labelledby="featured-title">
+          <div class="portal-container">
+            <h1 id="featured-title">FEATURED</h1>
+            <div class="featured-grid" data-featured-grid></div>
+            <div class="empty-state is-hidden" data-featured-empty>
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                  <path d="M4 12h16M12 4v16"></path>
+                </svg>
+              </span>
+              <p>No results found, try adjusting your search and filters.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="announcements-band" aria-labelledby="announcements-title">
+          <div class="portal-container">
+            <h2 id="announcements-title">NEW &amp; ANNOUNCEMENTS</h2>
+
+            <div class="toolbar" aria-label="Announcement controls">
+              <label class="search-control" for="announcement-search">
+                <span class="control-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="img">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m16.5 16.5 4 4"></path>
+                  </svg>
+                </span>
+                <span class="sr-only">Search announcements</span>
+                <input id="announcement-search" type="search" placeholder="Search" autocomplete="off" data-search>
+              </label>
+
+              <label class="filter-control" for="tag-filter">
+                <span class="sr-only">Filter announcements by tag</span>
+                <select id="tag-filter" data-tag-filter>
+                  <option value="">Filter</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="results-meta" data-results-meta aria-live="polite"></div>
+            <div class="announcement-grid" data-announcement-grid></div>
+            <div class="empty-state light is-hidden" data-announcement-empty>
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                  <path d="M4 12h16M12 4v16"></path>
+                </svg>
+              </span>
+              <p>No results found, try adjusting your search and filters.</p>
+            </div>
+            <div class="pagination">
+              <button class="load-more" type="button" data-load-more>Load more</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="hub-page is-hidden" id="resources" data-page="resources">
+        <section class="featured-band" aria-labelledby="resources-recent-title">
+          <div class="portal-container">
+            <h1 id="resources-recent-title">RECENT</h1>
+            <div class="featured-grid" data-resources-recent-grid></div>
+            <div class="empty-state is-hidden" data-resources-recent-empty>
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                  <path d="M4 12h16M12 4v16"></path>
+                </svg>
+              </span>
+              <p>No results found, try adjusting your search and filters.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="announcements-band" aria-labelledby="resources-title">
+          <div class="portal-container">
+            <h2 id="resources-title">RESOURCES</h2>
+
+            <div class="toolbar" aria-label="Resource controls">
+              <label class="search-control" for="resource-search">
+                <span class="control-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="img">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m16.5 16.5 4 4"></path>
+                  </svg>
+                </span>
+                <span class="sr-only">Search resources</span>
+                <input id="resource-search" type="search" placeholder="Search" autocomplete="off" data-resources-search>
+              </label>
+
+              <label class="filter-control" for="resource-tag-filter">
+                <span class="sr-only">Filter resources by tag</span>
+                <select id="resource-tag-filter" data-resources-tag-filter>
+                  <option value="">Filter</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="results-meta" data-resources-results-meta aria-live="polite"></div>
+            <div class="announcement-grid" data-resources-grid></div>
+            <div class="empty-state light is-hidden" data-resources-empty>
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                  <path d="M4 12h16M12 4v16"></path>
+                </svg>
+              </span>
+              <p>No results found, try adjusting your search and filters.</p>
+            </div>
+            <div class="pagination">
+              <button class="load-more" type="button" data-resources-load-more>Load more</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="hub-page calendar-page is-hidden" id="athletics-calendar" data-page="athletics-calendar" aria-labelledby="athletics-calendar-title">
         <div class="portal-container">
-          <h1 id="featured-title">FEATURED</h1>
-          <div class="featured-grid" data-featured-grid></div>
-          <div class="empty-state is-hidden" data-featured-empty>
-            <span class="empty-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img">
-                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
-                <path d="M4 12h16M12 4v16"></path>
-              </svg>
-            </span>
-            <p>No results found, try adjusting your search and filters.</p>
+          <h1 id="athletics-calendar-title">ATHLETICS CALENDAR</h1>
+          <div class="calendar-panel">
+            <div>
+              <p>Subscribe to the BCS Athletics calendar in Apple Calendar, Google Calendar, Outlook, or another calendar app.</p>
+              <a class="calendar-button" href="webcal://calendar.planningcenteronline.com/icals/eJxj4ajmsGLLz2T2NGW04kotzi8oqea0YivNZM7q47Ziy_ZU4kjMyWGzYnMNsWIr8VTiNjIwNDI1YbPmDLFiLwMK8AGl40syc1OLwWLcBYlFibnFQEPZixOBSopT3IBEnhsAM9Qa5A==5c0cec983274631ecba22ff87c0386616977b467">Open Athletics Calendar</a>
+            </div>
+            <code>webcal://calendar.planningcenteronline.com/icals/eJxj4ajmsGLLz2T2NGW04kotzi8oqea0YivNZM7q47Ziy_ZU4kjMyWGzYnMNsWIr8VTiNjIwNDI1YbPmDLFiLwMK8AGl40syc1OLwWLcBYlFibnFQEPZixOBSopT3IBEnhsAM9Qa5A==5c0cec983274631ecba22ff87c0386616977b467</code>
           </div>
         </div>
       </section>
 
-      <section class="announcements-band" id="announcements" aria-labelledby="announcements-title">
+      <section class="hub-page calendar-page is-hidden" id="academic-calendar" data-page="academic-calendar" aria-labelledby="academic-calendar-title">
         <div class="portal-container">
-          <h2 id="announcements-title">NEW &amp; ANNOUNCEMENTS</h2>
-
-          <div class="toolbar" aria-label="Announcement controls">
-            <label class="search-control" for="announcement-search">
-              <span class="control-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="img">
-                  <circle cx="11" cy="11" r="7"></circle>
-                  <path d="m16.5 16.5 4 4"></path>
-                </svg>
-              </span>
-              <span class="sr-only">Search announcements</span>
-              <input id="announcement-search" type="search" placeholder="Search" autocomplete="off" data-search>
-            </label>
-
-            <label class="filter-control" for="tag-filter">
-              <span class="sr-only">Filter announcements by tag</span>
-              <select id="tag-filter" data-tag-filter>
-                <option value="">Filter</option>
-              </select>
-            </label>
-
-          </div>
-
-          <div class="results-meta" data-results-meta aria-live="polite"></div>
-          <div class="announcement-grid" data-announcement-grid></div>
-          <div class="empty-state light is-hidden" data-announcement-empty>
-            <span class="empty-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img">
-                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
-                <path d="M4 12h16M12 4v16"></path>
-              </svg>
-            </span>
-            <p>No results found, try adjusting your search and filters.</p>
-          </div>
-          <div class="pagination">
-            <button class="load-more" type="button" data-load-more>Load more</button>
+          <h1 id="academic-calendar-title">ACADEMIC CALENDAR</h1>
+          <div class="calendar-panel">
+            <div>
+              <p>Subscribe to the BCS Academic calendar in Apple Calendar, Google Calendar, Outlook, or another calendar app.</p>
+              <a class="calendar-button" href="webcal://calendar.planningcenteronline.com/icals/eJxj4ajmsGLLz2T2NGW04kotzi8oqea0YivNZM7q47Ziy_ZU4kjMyWGzYnMNsWIr8VSSNDI1NDE31jEyMDQygVImbNacIVbsZUBpPqDi-JLM3NRisBh3QWJRYm4x0Ar24kSgkuIUNyCR5wYAhPcdqw==0cad58f2a92ce9955fe682f1c012b2bbeb1e11f9">Open Academic Calendar</a>
+            </div>
+            <code>webcal://calendar.planningcenteronline.com/icals/eJxj4ajmsGLLz2T2NGW04kotzi8oqea0YivNZM7q47Ziy_ZU4kjMyWGzYnMNsWIr8VSSNDI1NDE31jEyMDQygVImbNacIVbsZUBpPqDi-JLM3NRisBh3QWJRYm4x0Ar24kSgkuIUNyCR5wYAhPcdqw==0cad58f2a92ce9955fe682f1c012b2bbeb1e11f9</code>
           </div>
         </div>
       </section>

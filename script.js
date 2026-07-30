@@ -437,13 +437,25 @@ let announcements = [
 ];
 
 const state = {
-  search: "",
-  tag: "",
-  visibleCount: ITEMS_PER_PAGE,
+  activePage: "announcements",
+  collections: {
+    announcements: {
+      search: "",
+      tag: "",
+      visibleCount: ITEMS_PER_PAGE,
+    },
+    resources: {
+      search: "",
+      tag: "",
+      visibleCount: ITEMS_PER_PAGE,
+    },
+  },
   lastFocusedElement: null,
 };
 
 const elements = {
+  pages: document.querySelectorAll("[data-page]"),
+  pageLinks: document.querySelectorAll("[data-page-link]"),
   featuredGrid: document.querySelector("[data-featured-grid]"),
   featuredEmpty: document.querySelector("[data-featured-empty]"),
   announcementGrid: document.querySelector("[data-announcement-grid]"),
@@ -452,6 +464,14 @@ const elements = {
   tagFilter: document.querySelector("[data-tag-filter]"),
   loadMore: document.querySelector("[data-load-more]"),
   resultsMeta: document.querySelector("[data-results-meta]"),
+  resourcesRecentGrid: document.querySelector("[data-resources-recent-grid]"),
+  resourcesRecentEmpty: document.querySelector("[data-resources-recent-empty]"),
+  resourcesGrid: document.querySelector("[data-resources-grid]"),
+  resourcesEmpty: document.querySelector("[data-resources-empty]"),
+  resourcesSearch: document.querySelector("[data-resources-search]"),
+  resourcesTagFilter: document.querySelector("[data-resources-tag-filter]"),
+  resourcesLoadMore: document.querySelector("[data-resources-load-more]"),
+  resourcesResultsMeta: document.querySelector("[data-resources-results-meta]"),
   modalShell: document.querySelector("[data-modal-shell]"),
   modalBadges: document.querySelector("[data-modal-badges]"),
   modalTitle: document.querySelector("[data-modal-title]"),
@@ -490,10 +510,23 @@ function escapeHTML(value) {
   });
 }
 
-function isLivePublicItem(item) {
+const collectionConfig = {
+  announcements: {
+    category: "Public",
+    emptyPrefix: "announcements",
+    recentLimit: null,
+  },
+  resources: {
+    category: "Policy",
+    emptyPrefix: "resources",
+    recentLimit: 4,
+  },
+};
+
+function isLiveCategoryItem(item, category) {
   const today = todayAtMidnight();
   return (
-    item.category === "Public" &&
+    item.category === category &&
     parseDate(item.publishDate) <= today &&
     parseDate(item.closeDate) > today
   );
@@ -504,16 +537,25 @@ function compareAnnouncements(a, b) {
   return a.priority - b.priority;
 }
 
-function getFeaturedItems() {
+function getCollectionState(collection) {
+  return state.collections[collection];
+}
+
+function getBaseItems(collection) {
+  const config = collectionConfig[collection];
   return announcements
-    .filter((item) => isLivePublicItem(item) && isNonEmpty(item.featured))
+    .filter((item) => isLiveCategoryItem(item, config.category) && isNonEmpty(item.visible))
     .sort(compareAnnouncements);
 }
 
-function getBaseAnnouncementItems() {
-  return announcements
-    .filter((item) => isLivePublicItem(item) && isNonEmpty(item.visible))
+function getRecentItems(collection) {
+  const config = collectionConfig[collection];
+  const featured = announcements
+    .filter((item) => isLiveCategoryItem(item, config.category) && isNonEmpty(item.featured))
     .sort(compareAnnouncements);
+
+  if (featured.length || !config.recentLimit) return featured;
+  return getBaseItems(collection).slice(0, config.recentLimit);
 }
 
 function collectSearchText(value) {
@@ -523,22 +565,24 @@ function collectSearchText(value) {
   return String(value);
 }
 
-function matchesSearch(item) {
-  if (!state.search) return true;
+function matchesSearch(item, collection) {
+  const { search } = getCollectionState(collection);
+  if (!search) return true;
   const searchable = collectSearchText(item).toLowerCase();
-  return searchable.includes(state.search);
+  return searchable.includes(search);
 }
 
-function matchesTag(item) {
-  return !state.tag || item.tags.includes(state.tag);
+function matchesTag(item, collection) {
+  const { tag } = getCollectionState(collection);
+  return !tag || item.tags.includes(tag);
 }
 
-function getFilteredAnnouncements() {
-  return getBaseAnnouncementItems().filter((item) => matchesSearch(item) && matchesTag(item));
+function getFilteredItems(collection) {
+  return getBaseItems(collection).filter((item) => matchesSearch(item, collection) && matchesTag(item, collection));
 }
 
-function uniqueSortedTags() {
-  return [...new Set(getBaseAnnouncementItems().flatMap((item) => item.tags))].sort((a, b) =>
+function uniqueSortedTags(collection) {
+  return [...new Set(getBaseItems(collection).flatMap((item) => item.tags))].sort((a, b) =>
     a.localeCompare(b),
   );
 }
@@ -576,34 +620,38 @@ function imageIcon() {
   `;
 }
 
-function renderFeatured() {
-  const featured = getFeaturedItems();
-  elements.featuredGrid.innerHTML = featured.map(cardTemplate).join("");
-  elements.featuredGrid.classList.toggle("is-hidden", featured.length === 0);
-  elements.featuredEmpty.classList.toggle("is-hidden", featured.length > 0);
+function renderRecent(collection, gridElement, emptyElement) {
+  const items = getRecentItems(collection);
+  gridElement.innerHTML = items.map(cardTemplate).join("");
+  gridElement.classList.toggle("is-hidden", items.length === 0);
+  emptyElement.classList.toggle("is-hidden", items.length > 0);
 }
 
-function renderTagOptions() {
-  const options = uniqueSortedTags()
+function renderTagOptions(collection, selectElement) {
+  const currentValue = getCollectionState(collection).tag;
+  const options = uniqueSortedTags(collection)
     .map((tag) => `<option value="${escapeHTML(tag)}">${escapeHTML(tag)}</option>`)
     .join("");
-  elements.tagFilter.innerHTML = `<option value="">Filter</option>${options}`;
+  selectElement.innerHTML = `<option value="">Filter</option>${options}`;
+  selectElement.value = currentValue;
 }
 
-function renderAnnouncements() {
-  const filtered = getFilteredAnnouncements();
-  const visibleItems = filtered.slice(0, state.visibleCount);
+function renderCollection(collection, gridElement, emptyElement, loadMoreElement, resultsMetaElement) {
+  const filtered = getFilteredItems(collection);
+  const { visibleCount } = getCollectionState(collection);
+  const visibleItems = filtered.slice(0, visibleCount);
   const hasResults = filtered.length > 0;
+  const label = collectionConfig[collection].emptyPrefix;
 
-  elements.announcementGrid.innerHTML = visibleItems.map(cardTemplate).join("");
-  elements.announcementGrid.classList.toggle("is-hidden", !hasResults);
-  elements.announcementEmpty.classList.toggle("is-hidden", hasResults);
-  elements.loadMore.classList.toggle("is-hidden", visibleItems.length >= filtered.length);
+  gridElement.innerHTML = visibleItems.map(cardTemplate).join("");
+  gridElement.classList.toggle("is-hidden", !hasResults);
+  emptyElement.classList.toggle("is-hidden", hasResults);
+  loadMoreElement.classList.toggle("is-hidden", visibleItems.length >= filtered.length);
 
   if (hasResults) {
-    elements.resultsMeta.textContent = `Showing ${visibleItems.length} of ${filtered.length} announcements`;
+    resultsMetaElement.textContent = `Showing ${visibleItems.length} of ${filtered.length} ${label}`;
   } else {
-    elements.resultsMeta.textContent = "";
+    resultsMetaElement.textContent = "";
   }
 }
 
@@ -656,29 +704,54 @@ function handleCardClick(event) {
   if (item) openModal(item, card);
 }
 
-function resetVisibleCount() {
-  state.visibleCount = ITEMS_PER_PAGE;
+function resetVisibleCount(collection) {
+  getCollectionState(collection).visibleCount = ITEMS_PER_PAGE;
 }
 
 elements.search.addEventListener("input", (event) => {
-  state.search = event.target.value.trim().toLowerCase();
-  resetVisibleCount();
-  renderAnnouncements();
+  state.collections.announcements.search = event.target.value.trim().toLowerCase();
+  resetVisibleCount("announcements");
+  renderAnnouncementsPage();
 });
 
 elements.tagFilter.addEventListener("change", (event) => {
-  state.tag = event.target.value;
-  resetVisibleCount();
-  renderAnnouncements();
+  state.collections.announcements.tag = event.target.value;
+  resetVisibleCount("announcements");
+  renderAnnouncementsPage();
 });
 
 elements.loadMore.addEventListener("click", () => {
-  state.visibleCount += ITEMS_PER_PAGE;
-  renderAnnouncements();
+  state.collections.announcements.visibleCount += ITEMS_PER_PAGE;
+  renderAnnouncementsPage();
+});
+
+elements.resourcesSearch.addEventListener("input", (event) => {
+  state.collections.resources.search = event.target.value.trim().toLowerCase();
+  resetVisibleCount("resources");
+  renderResourcesPage();
+});
+
+elements.resourcesTagFilter.addEventListener("change", (event) => {
+  state.collections.resources.tag = event.target.value;
+  resetVisibleCount("resources");
+  renderResourcesPage();
+});
+
+elements.resourcesLoadMore.addEventListener("click", () => {
+  state.collections.resources.visibleCount += ITEMS_PER_PAGE;
+  renderResourcesPage();
 });
 
 elements.featuredGrid.addEventListener("click", handleCardClick);
 elements.announcementGrid.addEventListener("click", handleCardClick);
+elements.resourcesRecentGrid.addEventListener("click", handleCardClick);
+elements.resourcesGrid.addEventListener("click", handleCardClick);
+
+elements.pageLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    setActivePage(link.dataset.pageLink);
+  });
+});
 
 elements.modalCloseControls.forEach((control) => {
   control.addEventListener("click", closeModal);
@@ -690,10 +763,51 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+window.addEventListener("hashchange", () => {
+  setActivePage(window.location.hash.slice(1));
+});
+
+function renderAnnouncementsPage() {
+  renderTagOptions("announcements", elements.tagFilter);
+  renderRecent("announcements", elements.featuredGrid, elements.featuredEmpty);
+  renderCollection(
+    "announcements",
+    elements.announcementGrid,
+    elements.announcementEmpty,
+    elements.loadMore,
+    elements.resultsMeta,
+  );
+}
+
+function renderResourcesPage() {
+  renderTagOptions("resources", elements.resourcesTagFilter);
+  renderRecent("resources", elements.resourcesRecentGrid, elements.resourcesRecentEmpty);
+  renderCollection(
+    "resources",
+    elements.resourcesGrid,
+    elements.resourcesEmpty,
+    elements.resourcesLoadMore,
+    elements.resourcesResultsMeta,
+  );
+}
+
 function renderPortal() {
-  renderTagOptions();
-  renderFeatured();
-  renderAnnouncements();
+  renderAnnouncementsPage();
+  renderResourcesPage();
+}
+
+function setActivePage(page) {
+  const nextPage = document.querySelector(`[data-page="${page}"]`) ? page : "announcements";
+  state.activePage = nextPage;
+
+  elements.pages.forEach((pageElement) => {
+    pageElement.classList.toggle("is-hidden", pageElement.dataset.page !== nextPage);
+  });
+
+  elements.pageLinks.forEach((link) => {
+    const isCurrent = link.dataset.pageLink === nextPage;
+    link.setAttribute("aria-current", isCurrent ? "page" : "false");
+  });
 }
 
 function normalizeAnnouncement(item) {
@@ -733,9 +847,11 @@ async function loadLiveAnnouncements() {
 }
 
 async function initializePortal() {
+  setActivePage(window.location.hash.slice(1) || "announcements");
   renderPortal();
   await loadLiveAnnouncements();
-  resetVisibleCount();
+  resetVisibleCount("announcements");
+  resetVisibleCount("resources");
   renderPortal();
 }
 
