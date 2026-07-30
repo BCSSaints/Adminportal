@@ -515,20 +515,30 @@ const collectionConfig = {
     category: "Public",
     emptyPrefix: "announcements",
     recentLimit: null,
+    requireCurrentDates: true,
+    requireVisible: true,
   },
   resources: {
     category: "Policy",
     emptyPrefix: "resources",
     recentLimit: 4,
+    requireCurrentDates: false,
+    requireVisible: false,
   },
 };
 
-function isLiveCategoryItem(item, category) {
+function isCollectionItem(item, collection) {
+  const config = collectionConfig[collection];
   const today = todayAtMidnight();
+  const isCurrent =
+    !config.requireCurrentDates ||
+    (parseDate(item.publishDate) <= today && parseDate(item.closeDate) > today);
+  const isVisible = !config.requireVisible || isNonEmpty(item.visible);
+
   return (
-    item.category === category &&
-    parseDate(item.publishDate) <= today &&
-    parseDate(item.closeDate) > today
+    item.category === config.category &&
+    isCurrent &&
+    isVisible
   );
 }
 
@@ -542,18 +552,17 @@ function getCollectionState(collection) {
 }
 
 function getBaseItems(collection) {
-  const config = collectionConfig[collection];
   return announcements
-    .filter((item) => isLiveCategoryItem(item, config.category) && isNonEmpty(item.visible))
+    .filter((item) => isCollectionItem(item, collection))
     .sort(compareAnnouncements);
 }
 
 function getRecentItems(collection) {
-  const config = collectionConfig[collection];
   const featured = announcements
-    .filter((item) => isLiveCategoryItem(item, config.category) && isNonEmpty(item.featured))
+    .filter((item) => isCollectionItem(item, collection) && isNonEmpty(item.featured))
     .sort(compareAnnouncements);
 
+  const config = collectionConfig[collection];
   if (featured.length || !config.recentLimit) return featured;
   return getBaseItems(collection).slice(0, config.recentLimit);
 }
