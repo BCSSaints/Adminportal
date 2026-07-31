@@ -814,14 +814,34 @@ body.modal-open {
 
 @media (max-width: 860px) {
   .portal-header {
-    align-items: flex-start;
-    flex-direction: column;
-    min-height: 58px;
+    min-height: 50px;
+    padding: 7px 10px;
   }
 
   .portal-tabs {
+    flex-wrap: nowrap;
     width: 100%;
     justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .portal-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portal-tabs a {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .brand {
+    display: none;
   }
 
   .featured-grid,
