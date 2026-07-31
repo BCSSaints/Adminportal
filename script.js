@@ -1,5 +1,9 @@
 const ITEMS_PER_PAGE = 24;
 const ANNOUNCEMENTS_ENDPOINT = "/.netlify/functions/announcements";
+const CALENDAR_ENDPOINT = "/.netlify/functions/calendar";
+const calendarFormat = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
+const agendaDateFormat = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
+const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
 
 let announcements = [
   {
@@ -450,6 +454,20 @@ const state = {
       visibleCount: ITEMS_PER_PAGE,
     },
   },
+  calendars: {
+    athletics: {
+      currentDate: new Date(),
+      events: [],
+      loaded: false,
+      loading: false,
+    },
+    academic: {
+      currentDate: new Date(),
+      events: [],
+      loaded: false,
+      loading: false,
+    },
+  },
   lastFocusedElement: null,
 };
 
@@ -472,6 +490,12 @@ const elements = {
   resourcesTagFilter: document.querySelector("[data-resources-tag-filter]"),
   resourcesLoadMore: document.querySelector("[data-resources-load-more]"),
   resourcesResultsMeta: document.querySelector("[data-resources-results-meta]"),
+  calendarLabels: document.querySelectorAll("[data-calendar-label]"),
+  calendarGrids: document.querySelectorAll("[data-calendar-grid]"),
+  calendarLists: document.querySelectorAll("[data-calendar-list]"),
+  calendarStatuses: document.querySelectorAll("[data-calendar-status]"),
+  calendarPrevButtons: document.querySelectorAll("[data-calendar-prev]"),
+  calendarNextButtons: document.querySelectorAll("[data-calendar-next]"),
   modalShell: document.querySelector("[data-modal-shell]"),
   modalBadges: document.querySelector("[data-modal-badges]"),
   modalTitle: document.querySelector("[data-modal-title]"),
@@ -508,6 +532,38 @@ function escapeHTML(value) {
     };
     return entities[character];
   });
+}
+
+function calendarElement(collection, selector) {
+  return document.querySelector(`[${selector}="${collection}"]`);
+}
+
+function monthStart(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function addMonths(date, delta) {
+  return new Date(date.getFullYear(), date.getMonth() + delta, 1);
+}
+
+function localDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function parseEventDate(value) {
+  if (!value) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return new Date(`${value}T00:00:00`);
+  return new Date(value);
+}
+
+function formatEventTime(event) {
+  if (!event.start || /^\d{4}-\d{2}-\d{2}$/.test(event.start)) return "All day";
+  const start = parseEventDate(event.start);
+  if (!start || Number.isNaN(start.getTime())) return "";
+  return timeFormat.format(start);
 }
 
 const collectionConfig = {
@@ -756,6 +812,22 @@ elements.announcementGrid.addEventListener("click", handleCardClick);
 elements.resourcesRecentGrid.addEventListener("click", handleCardClick);
 elements.resourcesGrid.addEventListener("click", handleCardClick);
 
+elements.calendarPrevButtons.forEach((button) => {
+  button.addEventListener("click", () => changeCalendarMonth(button.dataset.calendarPrev, -1));
+});
+
+elements.calendarNextButtons.forEach((button) => {
+  button.addEventListener("click", () => changeCalendarMonth(button.dataset.calendarNext, 1));
+});
+
+elements.calendarGrids.forEach((grid) => {
+  grid.addEventListener("click", handleCalendarEventClick);
+});
+
+elements.calendarLists.forEach((list) => {
+  list.addEventListener("click", handleCalendarEventClick);
+});
+
 elements.pageLinks.forEach((link) => {
   link.addEventListener("click", () => {
     setActivePage(link.dataset.pageLink);
@@ -817,6 +889,168 @@ function setActivePage(page) {
     const isCurrent = link.dataset.pageLink === nextPage;
     link.setAttribute("aria-current", isCurrent ? "page" : "false");
   });
+
+  if (nextPage === "athletics-calendar") loadCalendar("athletics");
+  if (nextPage === "academic-calendar") loadCalendar("academic");
+}
+
+function eventsForDay(events, date) {
+  const key = localDateKey(date);
+  return events.filter((event) => event.startDate === key);
+}
+
+function monthEvents(collection) {
+  const calendar = state.calendars[collection];
+  const start = monthStart(calendar.currentDate);
+  const end = addMonths(start, 1);
+  return calendar.events.filter((event) => {
+    const eventDate = parseEventDate(event.startDate);
+    return eventDate && eventDate >= start && eventDate < end;
+  });
+}
+
+function calendarEventTemplate(event, collection) {
+  const index = state.calendars[collection].events.indexOf(event);
+  return `
+    <button class="calendar-event" type="button" data-calendar-event="${collection}" data-calendar-event-index="${index}">
+      <strong>${escapeHTML(event.title)}</strong>
+      <span>${escapeHTML(formatEventTime(event))}${event.location ? ` · ${escapeHTML(event.location)}` : ""}</span>
+    </button>
+  `;
+}
+
+function renderCalendarGrid(collection) {
+  const calendar = state.calendars[collection];
+  const labelElement = calendarElement(collection, "data-calendar-label");
+  const gridElement = calendarElement(collection, "data-calendar-grid");
+  if (!labelElement || !gridElement) return;
+
+  const firstOfMonth = monthStart(calendar.currentDate);
+  const gridStart = new Date(firstOfMonth);
+  gridStart.setDate(1 - firstOfMonth.getDay());
+  labelElement.textContent = calendarFormat.format(firstOfMonth);
+
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    .map((day) => `<div class="calendar-weekday">${day}</div>`)
+    .join("");
+  const days = [];
+
+  for (let index = 0; index < 42; index += 1) {
+    const date = new Date(gridStart);
+    date.setDate(gridStart.getDate() + index);
+    const inMonth = date.getMonth() === firstOfMonth.getMonth();
+    const dayEvents = eventsForDay(calendar.events, date);
+
+    days.push(`
+      <div class="calendar-day${inMonth ? "" : " muted"}${dayEvents.length ? " has-events" : ""}">
+        <span class="calendar-day-number">${date.getDate()}</span>
+        <div class="calendar-day-events">
+          ${dayEvents.slice(0, 3).map((event) => calendarEventTemplate(event, collection)).join("")}
+          ${dayEvents.length > 3 ? `<span class="calendar-more">+${dayEvents.length - 3} more</span>` : ""}
+        </div>
+      </div>
+    `);
+  }
+
+  gridElement.innerHTML = `<div class="calendar-grid">${weekdays}${days.join("")}</div>`;
+}
+
+function renderCalendarList(collection) {
+  const listElement = calendarElement(collection, "data-calendar-list");
+  if (!listElement) return;
+
+  const events = monthEvents(collection);
+  if (!events.length) {
+    listElement.innerHTML = `<div class="calendar-list-empty">No events this month.</div>`;
+    return;
+  }
+
+  listElement.innerHTML = events
+    .map((event) => {
+      const eventDate = parseEventDate(event.startDate);
+      const dateLabel = eventDate && !Number.isNaN(eventDate.getTime()) ? agendaDateFormat.format(eventDate) : "";
+      return `
+        <article class="calendar-list-item">
+          <time>${escapeHTML(dateLabel)}</time>
+          <button type="button" data-calendar-event="${collection}" data-calendar-event-index="${state.calendars[collection].events.indexOf(event)}">
+            <h3>${escapeHTML(event.title)}</h3>
+            <p>${escapeHTML(formatEventTime(event))}${event.location ? ` · ${escapeHTML(event.location)}` : ""}</p>
+          </button>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderCalendar(collection) {
+  const statusElement = calendarElement(collection, "data-calendar-status");
+  const calendar = state.calendars[collection];
+  renderCalendarGrid(collection);
+  renderCalendarList(collection);
+
+  if (statusElement) {
+    const count = monthEvents(collection).length;
+    statusElement.textContent = calendar.loaded ? `${count} events this month` : "Loading calendar...";
+  }
+}
+
+async function loadCalendar(collection) {
+  const calendar = state.calendars[collection];
+  if (calendar.loaded || calendar.loading) {
+    renderCalendar(collection);
+    return;
+  }
+
+  calendar.loading = true;
+  renderCalendar(collection);
+
+  try {
+    const response = await fetch(`${CALENDAR_ENDPOINT}?type=${collection}`, {
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error(`Calendar request failed: ${response.status}`);
+    const payload = await response.json();
+    calendar.events = Array.isArray(payload.events) ? payload.events : [];
+    calendar.loaded = true;
+  } catch (error) {
+    const statusElement = calendarElement(collection, "data-calendar-status");
+    if (statusElement) statusElement.textContent = "Unable to load this calendar right now.";
+    console.error(error);
+  } finally {
+    calendar.loading = false;
+    renderCalendar(collection);
+  }
+}
+
+function changeCalendarMonth(collection, delta) {
+  state.calendars[collection].currentDate = addMonths(state.calendars[collection].currentDate, delta);
+  renderCalendar(collection);
+  loadCalendar(collection);
+}
+
+function openCalendarEventModal(event, trigger) {
+  const details = [formatEventTime(event), event.location].filter(Boolean).join(" · ");
+  openModal(
+    {
+      title: event.title,
+      subtitle: details,
+      description: event.description || "",
+      contentUpload: "",
+      badges: ["Calendar"],
+      link: event.url || "",
+      additionalLink: "",
+    },
+    trigger,
+  );
+}
+
+function handleCalendarEventClick(event) {
+  const eventButton = event.target.closest("[data-calendar-event]");
+  if (!eventButton) return;
+
+  const collection = eventButton.dataset.calendarEvent;
+  const calendarEvent = state.calendars[collection]?.events[Number(eventButton.dataset.calendarEventIndex)];
+  if (calendarEvent) openCalendarEventModal(calendarEvent, eventButton);
 }
 
 function normalizeAnnouncement(item) {
