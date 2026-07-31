@@ -909,6 +909,23 @@ function monthEvents(collection) {
   });
 }
 
+function setInitialCalendarMonth(collection) {
+  const calendar = state.calendars[collection];
+  if (monthEvents(collection).length || !calendar.events.length) return;
+
+  const today = todayAtMidnight();
+  const firstUpcoming = calendar.events.find((event) => {
+    const eventDate = parseEventDate(event.startDate);
+    return eventDate && eventDate >= today;
+  });
+  const fallback = calendar.events[0];
+  const targetDate = parseEventDate(firstUpcoming?.startDate || fallback?.startDate);
+
+  if (targetDate && !Number.isNaN(targetDate.getTime())) {
+    calendar.currentDate = monthStart(targetDate);
+  }
+}
+
 function calendarEventTemplate(event, collection) {
   const index = state.calendars[collection].events.indexOf(event);
   return `
@@ -1012,6 +1029,7 @@ async function loadCalendar(collection) {
     const payload = await response.json();
     calendar.events = Array.isArray(payload.events) ? payload.events : [];
     calendar.loaded = true;
+    setInitialCalendarMonth(collection);
   } catch (error) {
     const statusElement = calendarElement(collection, "data-calendar-status");
     if (statusElement) statusElement.textContent = "Unable to load this calendar right now.";
